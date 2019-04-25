@@ -1,0 +1,55 @@
+{
+    "name": "jenky/guzzilla",
+    "type": "library",
+    "description": "Laravel guzzle manager",
+    "keywords": [
+        "jenky",
+        "guzzila"
+    ],
+    "homepage": "https://github.com/jenky/guzzilla",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lynh",
+            "email": "contact@lynh.me",
+            "homepage": "https://github.com/jenky",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "~7.1",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : ">=7.0",
+        "squizlabs/php_codesniffer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jenky\\Guzzilla\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jenky\\Guzzilla\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs src tests",
+        "fix-style": "phpcbf src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Jenky\\Guzzilla\\GuzzillaServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
