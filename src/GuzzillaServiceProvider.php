@@ -3,6 +3,7 @@
 namespace Jenky\Guzzilla;
 
 use Illuminate\Support\ServiceProvider;
+use Jenky\Guzzilla\Contracts\Guzzilla;
 
 class GuzzillaServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,12 @@ class GuzzillaServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../config/guzzilla.php', 'guzzilla'
         );
+
+        $this->app->singleton(Guzzilla::class, function ($app) {
+            return new GuzzleManager($app);
+        });
+
+        $this->app->alias(Guzzilla::class, 'guzzilla');
     }
 
     /**

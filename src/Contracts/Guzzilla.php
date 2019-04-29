@@ -5,11 +5,11 @@ namespace Jenky\Guzzilla\Contracts;
 interface Guzzilla
 {
     /**
-     * Get a service client instance.
+     * Get a client instance.
      *
-     * @param  string  $service
-     * @return mixed
+     * @param  string  $channel
      * @throws \InvalidArgumentException
+     * @return mixed
      */
-    public function service($service = null);
+    public function channel($channel = null);
 }
