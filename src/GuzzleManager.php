@@ -2,6 +2,7 @@
 
 namespace Jenky\Guzzilla;
 
+use Closure;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
 use Illuminate\Contracts\Foundation\Application;
@@ -64,37 +65,9 @@ class GuzzleManager implements Guzzilla
     protected function get($name)
     {
         return $this->channels[$name] ?? with($this->resolve($name), function ($client) use ($name) {
-            return $this->channels[$name] = $this->tap($name, new Client($client, $this->app['events']));
+            // return $this->channels[$name] = $this->tap($name, new Client($client, $this->app['events']));
+            return $this->channels[$name] = new Client($client, $this->app['events']);
         });
-    }
-
-    /**
-     * Apply the configured taps for the client.
-     *
-     * @param  string  $name
-     * @param  \Jenky\Guzzilla\Client  $client
-     * @return \Jenky\Guzzilla\Client
-     */
-    protected function tap($name, Client $client)
-    {
-        foreach ($this->configurationFor($name)['tap'] ?? [] as $tap) {
-            [$class, $arguments] = $this->parseTap($tap);
-
-            $this->app->make($class)->__invoke($client, ...explode(',', $arguments));
-        }
-
-        return $client;
-    }
-
-    /**
-     * Parse the given tap class string into a class name and arguments string.
-     *
-     * @param  string  $tap
-     * @return array
-     */
-    protected function parseTap($tap)
-    {
-        return Str::contains($tap, ':') ? explode(':', $tap, 2) : [$tap, ''];
     }
 
     /**
@@ -225,13 +198,65 @@ class GuzzleManager implements Guzzilla
     /**
      * Prepare handler stack for usage by Guzzle client.
      *
-     * @param  \GuzzleHttp\HandlerStack $stack
+     * @param  \GuzzleHttp\HandlerStack $handler
      * @param  array $config
      * @return \GuzzleHttp\HandlerStack
      */
-    protected function prepareHandler(HandlerStack $stack, array $config = [])
+    protected function prepareHandler(HandlerStack $handler, array $config = [])
     {
+        return $this->tap(
+            $this->prepareMiddleware($handler, $config['middleware'] ?? []),
+            $config
+        );
+    }
+
+    /**
+     * Apply the configured taps for the client.
+     *
+     * @param  \GuzzleHttp\HandlerStack  $handler
+     * @param  array  $config
+     * @return \GuzzleHttp\HandlerStack
+     */
+    protected function tap(HandlerStack $handler, array $config = [])
+    {
+        foreach ($config['tap'] ?? [] as $tap) {
+            [$class, $arguments] = $this->parseTap($tap);
+
+            $this->app->make($class)->__invoke($handler, ...explode(',', $arguments));
+        }
+
+        return $handler;
+    }
+
+    /**
+     * Parse the given tap class string into a class name and arguments string.
+     *
+     * @param  string  $tap
+     * @return array
+     */
+    protected function parseTap($tap)
+    {
+        return Str::contains($tap, ':') ? explode(':', $tap, 2) : [$tap, ''];
+    }
+
+    protected function prepareMiddleware(HandlerStack $stack, array $middleware = [])
+    {
+        foreach ($middleware as $name => $options) {
+            $stack->push(
+                $this->parseMiddleware($name, $options), $name
+            );
+        }
+
         return $stack;
+    }
+
+    protected function parseMiddleware($name, $options)
+    {
+        if (is_callable($options)) {
+            return $options;
+        }
+
+        return $this->app->make($name, $options);
     }
 
     /**

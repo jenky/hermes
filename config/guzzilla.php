@@ -33,12 +33,12 @@ return [
             'tap' => [
                 //
             ],
-            'handler' => '',
+            'handler' => null,
             'handler_with' => [
                 //
             ],
             'middleware' => [
-                //
+                \Jenky\Guzzilla\Middleware\RequestEvent::class => [],
             ],
         ],
     ],

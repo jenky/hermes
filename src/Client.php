@@ -18,13 +18,6 @@ class Client
     protected $client;
 
     /**
-     * The event dispatcher instance.
-     *
-     * @var \Illuminate\Contracts\Events\Dispatcher|null
-     */
-    protected $dispatcher;
-
-    /**
      * Create a new log writer instance.
      *
      * @param  \GuzzleHttp\ClientInterface  $client
@@ -45,27 +38,6 @@ class Client
     public function getClient()
     {
         return $this->client;
-    }
-
-    /**
-     * Get the event dispatcher instance.
-     *
-     * @return \Illuminate\Contracts\Events\Dispatcher
-     */
-    public function getEventDispatcher()
-    {
-        return $this->dispatcher;
-    }
-
-    /**
-     * Set the event dispatcher instance.
-     *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
-     * @return void
-     */
-    public function setEventDispatcher(Dispatcher $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
     }
 
     /**
