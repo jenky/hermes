@@ -11,27 +11,6 @@ use Psr\Http\Message\ResponseInterface;
 class RequestEvent
 {
     /**
-     * The request instance.
-     *
-     * @var \Psr\Http\Message\RequestInterface
-     */
-    protected $request;
-
-    /**
-     * The response instance.
-     *
-     * @var \Psr\Http\Message\ResponseInterface|null
-     */
-    protected $response;
-
-    /**
-     * The request options.
-     *
-     * @var array
-     */
-    protected $options = [];
-
-    /**
      * The event dispatcher instance.
      *
      * @var \Illuminate\Contracts\Events\Dispatcher|null
@@ -49,6 +28,12 @@ class RequestEvent
         $this->dispatcher = $dispatcher;
     }
 
+    /**
+     * Handle the request.
+     *
+     * @param  callable $handler
+     * @return callable
+     */
     public function __invoke(callable $handler)
     {
         return function (RequestInterface $request, array $options) use ($handler) {
@@ -69,11 +54,7 @@ class RequestEvent
     protected function handleSuccess(RequestInterface $request, array $options)
     {
         return function (ResponseInterface $response) use ($request, $options) {
-            $this->request = $request;
-            $this->response = $response;
-            $this->options = $options;
-
-            $this->fireEvent();
+            $this->fireEvent($request, $response, $options);
 
             return $response;
         };
@@ -89,16 +70,15 @@ class RequestEvent
     protected function handleFailure(RequestInterface $request, array $options)
     {
         return function ($reason) use ($request, $options) {
-            $this->request = $request;
-            $this->options = $options;
+            $response = null;
 
             if ($reason instanceof RequestException) {
                 if ($reason->hasResponse()) {
-                    $this->response = $reason->getResponse();
+                    $response = $reason->getResponse();
                 }
             }
 
-            $this->fireEvent();
+            $this->fireEvent($request, $response, $options);
 
             return \GuzzleHttp\Promise\rejection_for($reason);
         };
@@ -128,13 +108,16 @@ class RequestEvent
     /**
      * Fires a request event.
      *
+     * @param  \Psr\Http\Message\RequestInterface $request
+     * @param  \Psr\Http\Message\ResponseInterface|null $response
+     * @param  array $options
      * @return void
      */
-    protected function fireEvent()
+    protected function fireEvent(RequestInterface $request, ?ResponseInterface $response = null, array $options = [])
     {
         if (isset($this->dispatcher)) {
             $this->dispatcher->dispatch(new RequestHandled(
-                $this->request, $this->response, $this->options
+                $request, $response, $options
             ));
         }
     }

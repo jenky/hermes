@@ -3,8 +3,8 @@
 namespace Jenky\Guzzilla;
 
 use GuzzleHttp\ClientInterface;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Traits\ForwardsCalls;
+use Psr\Http\Message\ResponseInterface;
 
 class Client
 {
@@ -21,13 +21,11 @@ class Client
      * Create a new log writer instance.
      *
      * @param  \GuzzleHttp\ClientInterface  $client
-     * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
      * @return void
      */
-    public function __construct(ClientInterface $client, Dispatcher $dispatcher = null)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
-        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -41,7 +39,23 @@ class Client
     }
 
     /**
-     * Dynamically proxy method calls to the underlying logger.
+     * Map the response to it's handler.
+     *
+     * @param  mixed $response
+     * @return mixed
+     */
+    protected function mapToResponseHandler($response)
+    {
+        // Todo: Map the response to custom handler if configured
+        // if ($response instanceof ResponseInterface) {
+        //     return ;
+        // }
+
+        return $response;
+    }
+
+    /**
+     * Dynamically proxy method calls to the underlying client.
      *
      * @param  string  $method
      * @param  array  $parameters
@@ -49,6 +63,8 @@ class Client
      */
     public function __call($method, $parameters)
     {
-        return $this->forwardCallTo($this->client, $method, $parameters);
+        return $this->mapToResponseHandler(
+            $this->forwardCallTo($this->client, $method, $parameters)
+        );
     }
 }
