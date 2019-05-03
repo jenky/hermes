@@ -28,7 +28,7 @@ trait InteractsWithGuzzleConfiguration
      */
     public function handler(array $config)
     {
-        if (empty($config['request']['handler'])) {
+        if (empty($config['handler'])) {
             return;
         }
 
@@ -48,7 +48,7 @@ trait InteractsWithGuzzleConfiguration
      */
     protected function prepareHandler(HandlerStack $handler, array $config = [])
     {
-        foreach ($this->middleware($config) as $name => $middleware) {
+        foreach ($this->middleware($config) as [$middleware, $name]) {
             $handler->push($middleware, $name);
         }
 
@@ -64,10 +64,10 @@ trait InteractsWithGuzzleConfiguration
      */
     protected function tap(HandlerStack $handler, array $config = [])
     {
-        foreach ($config['tap'] ?? [] as $tap) {
-            [$class, $arguments] = $this->parseTap($tap);
+        foreach ($config['tap'] ?? [] as $key => $value) {
+            [$class, $arguments] = $this->parseClassAndArgurments($key, $value);
 
-            $this->app->make($class)->__invoke($handler, ...explode(',', $arguments));
+            $this->app->make($class)->__invoke($handler, ...$arguments);
         }
 
         return $handler;
@@ -85,6 +85,24 @@ trait InteractsWithGuzzleConfiguration
     }
 
     /**
+     * Parse the given class string into a class name and arguments array.
+     *
+     * @param  mixed $key
+     * @param  mixed $value
+     * @return array
+     */
+    protected function parseClassAndArgurments($key, $value)
+    {
+        if (is_string($key) && is_array($value)) {
+            return [$key, array_values($value)];
+        }
+
+        [$class, $argurments] = $this->parseTap($value);
+
+        return [$class, explode(',', $argurments)];
+    }
+
+    /**
      * Get all middleware that will be pushed to handle stack instance.
      *
      * @param  array $config
@@ -94,8 +112,8 @@ trait InteractsWithGuzzleConfiguration
     {
         $middleware = [];
 
-        foreach ($config['middleware'] ?? [] as $name => $parameters) {
-            $middleware[$name] = $this->parseMiddleware($name, $parameters);
+        foreach ($config['middleware'] ?? [] as $key => $value) {
+            $middleware[] = $this->parseMiddleware($key, $value);
         }
 
         return $middleware;
@@ -104,16 +122,20 @@ trait InteractsWithGuzzleConfiguration
     /**
      * Parse the given middleware and create middleware instance with it's parameters.
      *
-     * @param  string $name
-     * @param  array $parameters
+     * @param  mixed $key
+     * @param  mixed $value
      * @return array
      */
-    protected function parseMiddleware($name, $parameters)
+    protected function parseMiddleware($key, $value)
     {
-        if (is_callable($parameters)) {
-            return $parameters;
+        $name = is_numeric($key) ? '' : $key;
+
+        if (is_callable($value)) {
+            return [$value, $name];
         }
 
-        return $this->app->make($name, $parameters);
+        [$class, $arguments] = $this->parseClassAndArgurments($key, $value);
+
+        return [$this->app->make($class, $arguments), $class];
     }
 }
