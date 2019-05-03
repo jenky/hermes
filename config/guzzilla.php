@@ -38,7 +38,8 @@ return [
                 //
             ],
             'middleware' => [
-                \Jenky\Guzzilla\Middleware\RequestEvent::class => [],
+                \Jenky\Guzzilla\Middleware\RequestEvent::class,
+                \Jenky\Guzzilla\Middleware\ResponseHandler::class
             ],
         ],
     ],

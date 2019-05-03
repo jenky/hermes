@@ -22,23 +22,15 @@ class Client
     protected $client;
 
     /**
-     * The client configuration.
-     *
-     * @var array
-     */
-    protected $config;
-
-    /**
      * Create a new log writer instance.
      *
      * @param  \GuzzleHttp\ClientInterface  $client
      * @param  array $config
      * @return void
      */
-    public function __construct(ClientInterface $client, array $config = [])
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
-        $this->config = $config;
     }
 
     /**
@@ -49,23 +41,6 @@ class Client
     public function getClient()
     {
         return $this->client;
-    }
-
-    /**
-     * Map the response to it's handler.
-     *
-     * @param  mixed $response
-     * @return mixed
-     */
-    protected function mapToResponseHandler($response)
-    {
-        // Todo: Map the response to custom handler if configured
-        if ($response instanceof ResponseInterface
-            && is_a($this->config['response']['handler'] ?? null, ResponseHandler::class, true)) {
-            // return $this->app->make();
-        }
-
-        return $response;
     }
 
     /**
@@ -81,8 +56,6 @@ class Client
             return $this->macroCall($method, $parameters);
         }
 
-        return $this->mapToResponseHandler(
-            $this->forwardCallTo($this->client, $method, $parameters)
-        );
+        return $this->forwardCallTo($this->client, $method, $parameters);
     }
 }
