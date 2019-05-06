@@ -11,9 +11,9 @@ interface ResponseHandler extends Arrayable
      * Create new response handle instance.
      *
      * @param  \Psr\Http\Message\ResponseInterface $response
-     * @return $this
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public static function create(ResponseInterface $response);
+    public static function create(ResponseInterface $response): ResponseInterface;
 
     /**
      * Determine that request is successful.

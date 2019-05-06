@@ -34,12 +34,14 @@ return [
                 //
             ],
             'handler' => null,
-            'handler_with' => [
+            'with' => [
                 //
             ],
             'middleware' => [
                 \Jenky\Guzzilla\Middleware\RequestEvent::class,
-                \Jenky\Guzzilla\Middleware\ResponseHandler::class
+                \Jenky\Guzzilla\Middleware\ResponseHandler::class => [
+                    'response' => \Jenky\Guzzilla\Response::class
+                ],
             ],
         ],
     ],

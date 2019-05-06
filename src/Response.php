@@ -12,30 +12,12 @@ class Response extends GuzzleResponse implements HttpResponseHanlder
     use Macroable;
 
     /**
-     * The response interface instance.
-     *
-     * @var \Psr\Http\Message\ResponseInterface
-     */
-    protected $response;
-
-    /**
-     * Create new response handler instance.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @return void
-     */
-    // public function __construct(ResponseInterface $response)
-    // {
-    //     $this = $response;
-    // }
-
-    /**
      * Create new response handle instance.
      *
      * @param  \Psr\Http\Message\ResponseInterface $response
-     * @return $this
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public static function create(ResponseInterface $response)
+    public static function create(ResponseInterface $response): ResponseInterface
     {
         return new static(
             $response->getStatusCode(),

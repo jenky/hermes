@@ -5,8 +5,6 @@ namespace Jenky\Guzzilla;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\Macroable;
-use Jenky\Guzzilla\Contracts\ResponseHandler;
-use Psr\Http\Message\ResponseInterface;
 
 class Client
 {

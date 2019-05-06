@@ -34,7 +34,7 @@ trait InteractsWithGuzzleConfiguration
 
         $factory = is_callable($handler = $config['handler'])
             ? $handler
-            : $this->app->make($handler, $config['handler_with'] ?? []);
+            : $this->app->make($handler, $config['with'] ?? []);
 
         return $factory($config);
     }
@@ -65,7 +65,7 @@ trait InteractsWithGuzzleConfiguration
     protected function tap(HandlerStack $handler, array $config = [])
     {
         foreach ($config['tap'] ?? [] as $key => $value) {
-            [$class, $arguments] = $this->parseClassAndArgurments($key, $value);
+            [$class, $arguments] = $this->parseTap($key, $value);
 
             $this->app->make($class)->__invoke($handler, ...$arguments);
         }
@@ -94,12 +94,10 @@ trait InteractsWithGuzzleConfiguration
     protected function parseClassAndArgurments($key, $value)
     {
         if (is_string($key) && is_array($value)) {
-            return [$key, array_values($value)];
+            return [$key, $value];
         }
 
-        [$class, $argurments] = $this->parseTap($value);
-
-        return [$class, explode(',', $argurments)];
+        return [$value, []];
     }
 
     /**
