@@ -23,6 +23,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may configure the guzzle channels for your application.
+    | In addition, you may set any custom options as needed by the particular
+    | channel you choose.
     |
     */
 
