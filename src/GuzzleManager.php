@@ -10,7 +10,7 @@ use Jenky\Guzzilla\Contracts\Guzzilla;
 
 class GuzzleManager implements Guzzilla
 {
-    use InteractsWithGuzzleConfiguration;
+    use Concerns\InteractsWithGuzzleConfiguration;
 
     /**
      * The application instance.

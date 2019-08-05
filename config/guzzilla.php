@@ -1,5 +1,7 @@
 <?php
 
+use Jenky\Guzzilla\Middleware;
+
 return [
 
     /*
@@ -38,10 +40,8 @@ return [
                 //
             ],
             'middleware' => [
-                \Jenky\Guzzilla\Middleware\RequestEvent::class,
-                \Jenky\Guzzilla\Middleware\ResponseHandler::class => [
-                    'response' => \Jenky\Guzzilla\Response::class
-                ],
+                Middleware\RequestEvent::class,
+                Middleware\ResponseHandler::class,
             ],
         ],
     ],

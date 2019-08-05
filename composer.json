@@ -3,6 +3,11 @@
     "type": "library",
     "description": "Laravel guzzle manager",
     "keywords": [
+        "laravel",
+        "guzzle",
+        "http",
+        "http message",
+        "PSR http",
         "jenky",
         "guzzila"
     ],
@@ -32,7 +37,10 @@
     "autoload-dev": {
         "psr-4": {
             "Jenky\\Guzzilla\\": "tests"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "scripts": {
         "test": "phpunit",
@@ -48,6 +56,9 @@
                 "Jenky\\Guzzilla\\GuzzillaServiceProvider"
             ]
         }
+    },
+    "suggest": {
+        "symfony/psr-http-message-bridge": "Create Laravel response directly from PSR HTTP message response"
     },
     "config": {
         "sort-packages": true

@@ -9,26 +9,26 @@ interface HttpResponseHanlder extends ResponseHandler
      *
      * @return bool
      */
-    public function isInformational();
+    public function isInformational(): bool;
 
     /**
      * Checks if HTTP Status code is a Redirect (3xx).
      *
      * @return bool
      */
-    public function isRedirect();
+    public function isRedirect(): bool;
 
     /**
      * Checks if HTTP Status code is a Client Error (4xx).
      *
      * @return bool
      */
-    public function isClientError();
+    public function isClientError(): bool;
 
     /**
      * Checks if HTTP Status code is a Server Error (4xx).
      *
      * @return bool
      */
-    public function isServerError();
+    public function isServerError(): bool;
 }

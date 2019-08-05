@@ -2,16 +2,15 @@
 
 namespace Jenky\Guzzilla\Contracts;
 
-use Illuminate\Contracts\Support\Arrayable;
 use Psr\Http\Message\ResponseInterface;
 
-interface ResponseHandler extends Arrayable
+interface ResponseHandler extends ResponseInterface
 {
     /**
      * Create new response handle instance.
      *
      * @param  \Psr\Http\Message\ResponseInterface $response
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseHandler
      */
     public static function create(ResponseInterface $response): ResponseInterface;
 
@@ -20,12 +19,12 @@ interface ResponseHandler extends Arrayable
      *
      * @return bool
      */
-    public function isSuccessful();
+    public function isSuccessful(): bool;
 
     /**
      * Determine that request is error.
      *
      * @return bool
      */
-    public function isError();
+    public function isError(): bool;
 }

@@ -69,9 +69,9 @@ class ResponseHandler
      * @param  array $options
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function createResponseHandler(ResponseInterface $response, array $options)
+    protected function createResponseHandler(ResponseInterface $response, array $options): ResponseInterface
     {
-        $handler = $this->getResponseHandler($options);
+        $handler = $this->getResponseHandler($options) ?: Response::class;
 
         return $handler ? $handler::create($response) : $response;
     }

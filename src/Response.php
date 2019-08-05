@@ -33,7 +33,7 @@ class Response extends GuzzleResponse implements HttpResponseHanlder
      *
      * @return bool
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         $statusCode = $this->getStatusCode();
 
@@ -45,7 +45,7 @@ class Response extends GuzzleResponse implements HttpResponseHanlder
      *
      * @return bool
      */
-    public function isError()
+    public function isError(): bool
     {
         return ! $this->isSuccessful();
     }
@@ -55,7 +55,7 @@ class Response extends GuzzleResponse implements HttpResponseHanlder
      *
      * @return bool
      */
-    public function isInformational()
+    public function isInformational(): bool
     {
         return $this->getStatusCode() < 200;
     }
@@ -65,7 +65,7 @@ class Response extends GuzzleResponse implements HttpResponseHanlder
      *
      * @return bool
      */
-    public function isRedirect()
+    public function isRedirect(): bool
     {
         $statusCode = $this->getStatusCode();
 
@@ -77,7 +77,7 @@ class Response extends GuzzleResponse implements HttpResponseHanlder
      *
      * @return bool
      */
-    public function isClientError()
+    public function isClientError(): bool
     {
         $statusCode = $this->getStatusCode();
 
@@ -89,20 +89,10 @@ class Response extends GuzzleResponse implements HttpResponseHanlder
      *
      * @return bool
      */
-    public function isServerError()
+    public function isServerError(): bool
     {
         $statusCode = $this->getStatusCode();
 
         return $statusCode >= 500;
-    }
-
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return [];
     }
 }
