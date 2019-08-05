@@ -59,7 +59,7 @@
         }
     },
     "suggest": {
-        "symfony/psr-http-message-bridge": "Create Laravel response directly from PSR HTTP message response"
+        "symfony/psr-http-message-bridge": "Create Symfony, Laravel response directly from PSR-7 HTTP message response"
     },
     "config": {
         "sort-packages": true
