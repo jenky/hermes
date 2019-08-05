@@ -8,6 +8,7 @@
         "http",
         "http message",
         "PSR http",
+        "psr-7",
         "jenky",
         "guzzila"
     ],
