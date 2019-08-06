@@ -1,4 +1,4 @@
-# guzzilla
+# Guzzilla
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -7,6 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
+The package provides a nice and easy wrapper around Guzzle for use in your Laravel applications. If you don't know what Guzzle does, [take a peek at their intro](http://docs.guzzlephp.org/en/stable/index.html). Shortly said, Guzzle is a [PSR-7 HTTP message](https://www.php-fig.org/psr/psr-7/) implementation.
 
 ## Install
 
@@ -43,18 +44,39 @@ Set guzzle request options within the channel. Please visit [Request Options](ht
 ``` php
 'default' => [
     'options' => [
-        'base_uri' => 'https://api.github.com/v1',
+        'base_uri' => 'https://api.github.com/v3/',
         'time_out' => 20,
     ],
 ],
 ```
 
 ### Configure the guzzle handler
-WIP
+Configure guzzle [Handler](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#handlers) within the channel.
+
+By default, guzzle will choose the most appropriate handler based on the extensions available on your system. However you can override this behavior with `handler` option. Optionally, any constructor parameters the handler needs may be specified using the `with` configuration option:
+
+``` php
+'default' => [
+    'handler' => App\Http\CustomGuzzleHandler::class,
+    'with' => [
+        'delay' => 5,
+    ],
+],
+```
+
+An alternative way is set the handler in the `options` configuration:
+
+``` php
+'default' => [
+    'options' => [
+        'handler' => new App\Http\CustomGuzzleHandler(5)
+    ],
+],
+```
 
 ### Configure the guzzle middleware
 
-Set guzzle middleware options within the channel. Please visit [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#middleware) for more information.
+Configure guzzle [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#middleware) within the channel.
 
 ``` php
 'default' => [
@@ -64,22 +86,51 @@ Set guzzle middleware options within the channel. Please visit [Middleware](http
 ],
 ```
 
-By default, the package ships with 2 middleware. You can read about the middleware in the [middleware](#middleware) section.
+> The package ships with 2 middleware. You can read about the middleware in the [middleware](#middleware) section.
 
 
 ### Customizing the guzzle handler stack
 
-Sometimes you may need complete control over how guzzle's handler stack is configured for an existing channel. For example, you may want to add, remove or reorder a middleware for a given channel's handler stack. Please visit [HandleStack](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#handlerstack) for more information.
+Sometimes you may need complete control over how guzzle's [HandleStack](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#handlerstack) is configured for an existing channel. For example, you may want to add, remove or unshift a middleware for a given channel's handler stack.
 
-To get started, define a tap array on the channel's configuration. The tap array should contain a list of classes that should have an opportunity to customize (or "tap" into) the handle stack instance after it is created:
+To get started, define a `tap` array on the channel's configuration. The `tap` array should contain a list of classes that should have an opportunity to customize (or "tap" into) the handle stack instance after it is created:
 
 ``` php
 'default' => [
     'tap' => [
-        App\Middleware\AddRequestLogHandler::class,
+        App\Http\CustomizeHandlerStack::class,
     ],
 ],
 ```
+
+Once you have configured the `tap` option on your channel, you're ready to define the class that will customize your `HandlerStack` instance. This class only needs a single method: `__invoke`, which receives an `GuzzleHttp\HandlerStack` instance.
+
+``` php
+<?php
+
+namespace App\Http;
+
+use Psr\Http\Message\RequestInterface;
+use GuzzleHttp\Middleware;
+
+class CustomizeHandlerStack
+{
+    /**
+     * Customize the given handler stack instance.
+     *
+     * @param  \GuzzleHttp\HandlerStack  $stack
+     * @return void
+     */
+    public function __invoke($stack)
+    {
+        $stack->before('add_foo', Middleware::mapRequest(function (RequestInterface $r) {
+            return $r->withHeader('X-Baz', 'Qux');
+        }, 'add_baz');
+    }
+}
+```
+
+> All of your "tap" classes are resolved by the service container, so any constructor dependencies they require will automatically be injected.
 
 ## Middleware
 

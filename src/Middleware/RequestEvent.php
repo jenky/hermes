@@ -18,7 +18,7 @@ class RequestEvent
     protected $dispatcher;
 
     /**
-     * Create a new log writer instance.
+     * Create a new handler instance.
      *
      * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
      * @return void

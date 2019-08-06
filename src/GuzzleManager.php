@@ -159,7 +159,7 @@ class GuzzleManager implements Guzzilla
     protected function createGuzzleDriver(array $config)
     {
         $options = $config['options'] ?? [];
-        $options['handler'] = $this->createHandler($config);
+        $options['handler'] = $options['handler'] ?? $this->createHandler($config);
 
         return new GuzzleClient($options);
     }

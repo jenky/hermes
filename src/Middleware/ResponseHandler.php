@@ -18,7 +18,7 @@ class ResponseHandler
     protected $response;
 
     /**
-     * Create middleware instance.
+     * Create a new handler instance.
      *
      * @param  string|null $response
      * @return void
