@@ -180,6 +180,8 @@ If you needs more parameters, extends the `ResponseHandler` with your middleware
 ## Usage
 
 ``` php
+use Jenky\Guzzila\Facades\Guzzle;
+
 Guzzle::get('https://jsonplaceholder.typicode.com/users');
 // or using helper
 guzzle()->get('https://jsonplaceholder.typicode.com/users');
@@ -188,6 +190,8 @@ guzzle()->get('https://jsonplaceholder.typicode.com/users');
 Sometimes you may wish to send a request to a channel other than your application's default channel. You may use the `channel` method on the `Guzzle` facade to retrieve and send to any channel defined in your configuration file:
 
 ``` php
+use Jenky\Guzzila\Facades\Guzzle;
+
 Guzzle::channel('gitlab')->get('https://jsonplaceholder.typicode.com/users');
 // or using helper
 guzzle('gitlab')->get('https://jsonplaceholder.typicode.com/users');
