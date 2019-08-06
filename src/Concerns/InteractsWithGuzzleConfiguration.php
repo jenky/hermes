@@ -91,7 +91,7 @@ trait InteractsWithGuzzleConfiguration
      * @param  mixed $value
      * @return array
      */
-    protected function parseClassAndArgurments($key, $value)
+    protected function parseClassAndArguments($key, $value)
     {
         if (is_string($key) && is_array($value)) {
             return [$key, $value];
@@ -132,7 +132,7 @@ trait InteractsWithGuzzleConfiguration
             return [$value, $name];
         }
 
-        [$class, $arguments] = $this->parseClassAndArgurments($key, $value);
+        [$class, $arguments] = $this->parseClassAndArguments($key, $value);
 
         return [$this->app->make($class, $arguments), $class];
     }
