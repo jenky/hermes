@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-The package provides a nice and easy wrapper around Guzzle for use in your Laravel applications. If you don't know what Guzzle does, [take a peek at their intro](http://docs.guzzlephp.org/en/stable/index.html). Shortly said, Guzzle is a [PSR-7 HTTP message](https://www.php-fig.org/psr/psr-7/) implementation.
+The package provides a nice and easy wrapper around Guzzle for use in your Laravel applications. If you don't know what Guzzle does, [take a peek at their intro](http://docs.guzzlephp.org/en/stable/index.html). Shortly said, Guzzle is a PHP HTTP client that makes it easy to send HTTP requests and trivial to integrate with web service.
 
 ## Install
 
@@ -64,12 +64,12 @@ By default, guzzle will choose the most appropriate handler based on the extensi
 ],
 ```
 
-An alternative way is set the handler in the `options` configuration:
+An alternative way is set the handler in the [`options`](#configure-the-guzzle-option) configuration:
 
 ``` php
 'default' => [
     'options' => [
-        'handler' => new App\Http\CustomGuzzleHandler(5)
+        'handler' => App\Http\CustomGuzzleHandler::create(['delay' => 5]),
     ],
 ],
 ```
