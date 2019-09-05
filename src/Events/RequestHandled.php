@@ -26,10 +26,10 @@ class RequestHandled
      *
      * @var array
      */
-    public $options;
+    public $options = [];
 
     /**
-     * Create event instance.
+     * Create a new event instance.
      *
      * @param  \Psr\Http\Message\RequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface|null $response

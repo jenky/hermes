@@ -91,8 +91,6 @@ class Response extends GuzzleResponse implements HttpResponseHanlder
      */
     public function isServerError(): bool
     {
-        $statusCode = $this->getStatusCode();
-
-        return $statusCode >= 500;
+        return $this->getStatusCode() >= 500;
     }
 }
