@@ -5,8 +5,9 @@ namespace Jenky\Guzzilla;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\Macroable;
+use Jenky\Guzzilla\Factory as FactoryContract;
 
-class Client
+class Factory implements FactoryContract
 {
     use ForwardsCalls, Macroable {
         __call as macroCall;

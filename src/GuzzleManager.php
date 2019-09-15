@@ -60,12 +60,12 @@ class GuzzleManager implements Guzzilla
      * Attempt to get the log from the local cache.
      *
      * @param  string  $name
-     * @return \GuzzleHttp\ClientInterface
+     * @return \Jenky\Guzzilla\Factory
      */
     protected function get($name)
     {
         return $this->channels[$name] ?? with($this->resolve($name), function ($client) use ($name) {
-            return $this->channels[$name] = new Client(
+            return $this->channels[$name] = new Factory(
                 $client, $this->configurationFor($name) ?: []
             );
         });
