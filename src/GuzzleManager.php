@@ -60,7 +60,7 @@ class GuzzleManager implements Guzzilla
      * Attempt to get the log from the local cache.
      *
      * @param  string  $name
-     * @return \Jenky\Guzzilla\Factory
+     * @return \Jenky\Guzzilla\Contracts\Factory
      */
     protected function get($name)
     {

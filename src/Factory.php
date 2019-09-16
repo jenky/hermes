@@ -21,15 +21,23 @@ class Factory implements FactoryContract
     protected $client;
 
     /**
+     * Client configuration options.
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * Create a new log writer instance.
      *
      * @param  \GuzzleHttp\ClientInterface  $client
-     * @param  array $config
+     * @param  array $options
      * @return void
      */
-    public function __construct(ClientInterface $client)
+    public function __construct(ClientInterface $client, array $options = [])
     {
         $this->client = $client;
+        $this->options = $options;
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Jenky\Guzzilla\Concerns;
 
+use Illuminate\Support\Arr;
+
 trait InteractsWithResponse
 {
     /**
@@ -13,7 +15,7 @@ trait InteractsWithResponse
      */
     public function get($key, $default = null)
     {
-        return data_get($this->toArray(), $key, $default);
+        return Arr::get($this->toArray(), $key, $default);
     }
 
     /**
