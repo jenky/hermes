@@ -5,7 +5,7 @@ namespace Jenky\Guzzilla;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\Macroable;
-use Jenky\Guzzilla\Factory as FactoryContract;
+use Jenky\Guzzilla\Contracts\Factory as FactoryContract;
 
 class Factory implements FactoryContract
 {

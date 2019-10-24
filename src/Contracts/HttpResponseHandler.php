@@ -2,7 +2,7 @@
 
 namespace Jenky\Guzzilla\Contracts;
 
-interface HttpResponseHanlder extends ResponseHandler
+interface HttpResponseHandler extends ResponseHandler
 {
     /**
      * Checks if HTTP Status code is Information (1xx).

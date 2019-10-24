@@ -4,10 +4,10 @@ namespace Jenky\Guzzilla;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Illuminate\Support\Traits\Macroable;
-use Jenky\Guzzilla\Contracts\HttpResponseHanlder;
+use Jenky\Guzzilla\Contracts\HttpResponseHandler;
 use Psr\Http\Message\ResponseInterface;
 
-class Response extends GuzzleResponse implements HttpResponseHanlder
+class Response extends GuzzleResponse implements HttpResponseHandler
 {
     use Macroable;
 
