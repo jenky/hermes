@@ -7,6 +7,7 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\Macroable;
 use Jenky\Guzzilla\Contracts\Factory as FactoryContract;
 
+// TODO Remove this and replace with tap since guzzle client is immutable
 class Factory implements FactoryContract
 {
     use ForwardsCalls, Macroable {

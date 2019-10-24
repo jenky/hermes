@@ -44,6 +44,20 @@ class ResponseHandler
     }
 
     /**
+     * Create response handler instance.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param  array $options
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function createResponseHandler(ResponseInterface $response, array $options): ResponseInterface
+    {
+        $handler = $this->getResponseHandler($options) ?: Response::class;
+
+        return $handler ? $handler::create($response) : $response;
+    }
+
+    /**
      * Get the response handler class name.
      *
      * @param  array $options
@@ -60,19 +74,5 @@ class ResponseHandler
         }
 
         return $handler;
-    }
-
-    /**
-     * Create response handler instance.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @param  array $options
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function createResponseHandler(ResponseInterface $response, array $options): ResponseInterface
-    {
-        $handler = $this->getResponseHandler($options) ?: Response::class;
-
-        return $handler ? $handler::create($response) : $response;
     }
 }

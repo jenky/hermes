@@ -47,7 +47,7 @@
         ]
     },
     "scripts": {
-        "test": "phpdbg -qrr vendor/bin/phpunit",
+        "test": "vendor/bin/phpunit",
         "check-style": "phpcs src tests",
         "fix-style": "phpcbf src tests"
     },

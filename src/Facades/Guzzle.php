@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Guzzila\Facades;
+namespace Jenky\Guzzilla\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

@@ -2,7 +2,11 @@
 
 namespace Jenky\Guzzilla\Test;
 
+use Jenky\Guzzilla\Facades\Guzzle;
 use Jenky\Guzzilla\GuzzillaServiceProvider;
+use Jenky\Guzzilla\JsonResponse;
+use Jenky\Guzzilla\Middleware\RequestEvent;
+use Jenky\Guzzilla\Middleware\ResponseHandler;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -37,5 +41,37 @@ class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
+
+        $config->set('guzzilla.channels.httpbin', [
+            'driver' => 'guzzle',
+            'options' => [
+                'base_uri' => 'https://httpbin.org',
+                'http_errors' => false,
+            ],
+            'tap' => [
+                //
+            ],
+            'handler' => null,
+            'with' => [
+                //
+            ],
+            'middleware' => [
+                RequestEvent::class,
+                ResponseHandler::class => [
+                    'response' => JsonResponse::class
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * Get the httpbin client.
+     *
+     * @param  array $options
+     * @return \Jenky\Guzzilla\GuzzleManager
+     */
+    protected function httpClient(array $options = [])
+    {
+        return Guzzle::channel('httpbin', $options);
     }
 }

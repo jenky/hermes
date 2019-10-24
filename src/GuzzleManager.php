@@ -48,26 +48,26 @@ class GuzzleManager implements Guzzilla
      * Get a client instance.
      *
      * @param  string  $channel
+     * @param  array $options
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Client
      */
-    public function channel($channel = null)
+    public function channel($channel = null, array $options = [])
     {
-        return $this->get($channel ?: $this->getDefaultChannel());
+        return $this->get($channel ?: $this->getDefaultChannel(), $options);
     }
 
     /**
      * Attempt to get the log from the local cache.
      *
      * @param  string  $name
+     * @param  array $options
      * @return \Jenky\Guzzilla\Contracts\Factory
      */
-    protected function get($name)
+    protected function get($name, array $options = [])
     {
-        return $this->channels[$name] ?? with($this->resolve($name), function ($client) use ($name) {
-            return $this->channels[$name] = new Factory(
-                $client, $this->configurationFor($name) ?: []
-            );
+        return $this->channels[$name] ?? with($this->resolve($name, $options), function ($client) use ($name) {
+            return $this->channels[$name] = new Factory($client);
         });
     }
 
@@ -75,26 +75,33 @@ class GuzzleManager implements Guzzilla
      * Get the client configuration.
      *
      * @param  string  $name
-     * @return array|null
+     * @return array
      */
     protected function configurationFor($name)
     {
-        return $this->app['config']["guzzilla.channels.{$name}"];
+        return $this->app['config']["guzzilla.channels.{$name}"] ?? [];
     }
 
     /**
      * Resolve the given log instance by name.
      *
      * @param  string  $name
+     * @param  array $options
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\ClientInterface
      */
-    protected function resolve($name)
+    protected function resolve($name, array $options = [])
     {
-        $config = $this->configurationFor($name);
+        $config = array_merge(
+            $this->configurationFor($name), $options
+        );
 
         if (is_null($config)) {
-            throw new InvalidArgumentException("Guzzle driver [{$name}] is not defined.");
+            throw new InvalidArgumentException("Guzzle channel [{$name}] is not defined.");
+        }
+
+        if (empty($config['driver'])) {
+            throw new InvalidArgumentException("Guzzle driver is not defined.");
         }
 
         if (isset($this->customCreators[$config['driver']])) {
