@@ -47,6 +47,7 @@ class TestCase extends BaseTestCase
             'options' => [
                 'base_uri' => 'https://httpbin.org',
                 'http_errors' => false,
+                'response_handler' => JsonResponse::class,
             ],
             'tap' => [
                 //
@@ -57,9 +58,7 @@ class TestCase extends BaseTestCase
             ],
             'middleware' => [
                 RequestEvent::class,
-                ResponseHandler::class => [
-                    'response' => JsonResponse::class
-                ],
+                ResponseHandler::class,
             ],
         ]);
     }

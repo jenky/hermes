@@ -65,7 +65,7 @@ class ResponseHandler
      */
     protected function getResponseHandler(array $options)
     {
-        $handler = $this->response ?: ($options['response'] ?? null);
+        $handler = $this->response ?: ($options['response_handler'] ?? null);
 
         if ($handler && ! is_a($handler, ResponseHandlerInterface::class, true)) {
             throw new InvalidArgumentException(
