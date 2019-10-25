@@ -8,6 +8,6 @@ class ClientTest extends TestCase
 {
     public function test_client_is_instance_of_guzzle()
     {
-        $this->assertInstanceOf(Client::class, guzzle()->getClient());
+        $this->assertInstanceOf(Client::class, guzzle());
     }
 }

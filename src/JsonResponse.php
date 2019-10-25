@@ -5,11 +5,10 @@ namespace Jenky\Guzzilla;
 use ArrayAccess;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse as BaseJsonResponse;
 use JsonSerializable;
 
-class JsonResponse extends Response implements ArrayAccess, Arrayable, Jsonable, JsonSerializable, Responsable
+class JsonResponse extends Response implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {
     use Concerns\InteractsWithResponse;
 
@@ -55,16 +54,5 @@ class JsonResponse extends Response implements ArrayAccess, Arrayable, Jsonable,
     public function toJson($options = 0)
     {
         return json_encode($this->jsonSerialize(), $options);
-    }
-
-    /**
-     * Create an HTTP response that represents the object.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function toResponse($request)
-    {
-        return new BaseJsonResponse($this);
     }
 }

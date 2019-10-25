@@ -36,7 +36,7 @@ class RequestHandled
      * @param  array $options
      * @return void
      */
-    public function __construct(RequestInterface $request, ?ResponseInterface $response = null, array $options = [])
+    public function __construct(RequestInterface $request, ResponseInterface $response = null, array $options = [])
     {
         $this->request = $request;
         $this->response = $response;

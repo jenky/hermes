@@ -3,6 +3,8 @@
 namespace Jenky\Guzzilla;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Jenky\Guzzilla\Contracts\HttpResponseHandler;
 use Psr\Http\Message\ResponseInterface;
@@ -26,6 +28,22 @@ class Response extends GuzzleResponse implements HttpResponseHandler
             $response->getProtocolVersion(),
             $response->getReasonPhrase()
         );
+    }
+
+    /**
+     * Retrieve a header from the request.
+     *
+     * @param  string|null  $key
+     * @param  string|array|null  $default
+     * @return string|array|null
+     */
+    public function header($header = null, $default = null)
+    {
+        $headers = array_map(function ($values) {
+            return $values[0] ?? null;
+        }, $this->getHeaders());
+
+        return $header ? Arr::get($headers, Str::title($header), $default) : $headers;
     }
 
     /**

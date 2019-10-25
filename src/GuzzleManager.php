@@ -67,7 +67,7 @@ class GuzzleManager implements Guzzilla
     protected function get($name, array $options = [])
     {
         return $this->channels[$name] ?? with($this->resolve($name, $options), function ($client) use ($name) {
-            return $this->channels[$name] = new Factory($client);
+            return $this->channels[$name] = $client;
         });
     }
 
@@ -101,7 +101,7 @@ class GuzzleManager implements Guzzilla
         }
 
         if (empty($config['driver'])) {
-            throw new InvalidArgumentException("Guzzle driver is not defined.");
+            throw new InvalidArgumentException('Guzzle driver is not defined.');
         }
 
         if (isset($this->customCreators[$config['driver']])) {

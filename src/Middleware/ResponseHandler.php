@@ -4,7 +4,6 @@ namespace Jenky\Guzzilla\Middleware;
 
 use InvalidArgumentException;
 use Jenky\Guzzilla\Contracts\ResponseHandler as ResponseHandlerInterface;
-use Jenky\Guzzilla\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -13,17 +12,17 @@ class ResponseHandler
     /**
      * The response handler class name.
      *
-     * @var string
+     * @var \Jenky\Guzzilla\Contracts\ResponseHandler
      */
     protected $response;
 
     /**
      * Create a new handler instance.
      *
-     * @param  string|null $response
+     * @param  \Jenky\Guzzilla\Contracts\ResponseHandler|null $response
      * @return void
      */
-    public function __construct($response = null)
+    public function __construct(ResponseHandlerInterface $response = null)
     {
         $this->response = $response;
     }
@@ -52,7 +51,7 @@ class ResponseHandler
      */
     protected function createResponseHandler(ResponseInterface $response, array $options): ResponseInterface
     {
-        $handler = $this->getResponseHandler($options) ?: Response::class;
+        $handler = $this->getResponseHandler($options) ?: $this->response;
 
         return $handler ? $handler::create($response) : $response;
     }
@@ -65,7 +64,7 @@ class ResponseHandler
      */
     protected function getResponseHandler(array $options)
     {
-        $handler = $this->response ?: ($options['response_handler'] ?? null);
+        $handler = $options['response_handler'] ?? null;
 
         if ($handler && ! is_a($handler, ResponseHandlerInterface::class, true)) {
             throw new InvalidArgumentException(
