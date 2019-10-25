@@ -1,11 +1,9 @@
 # Guzzilla
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
+[![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
+[![Software License][ico-license]](LICENSE.md)
 
 The package provides a nice and easy wrapper around Guzzle for use in your Laravel applications. If you don't know what Guzzle does, [take a peek at their intro](http://docs.guzzlephp.org/en/stable/index.html). Shortly said, Guzzle is a PHP HTTP client that makes it easy to send HTTP requests and trivial to integrate with web service.
 
@@ -163,19 +161,17 @@ public $options;
 
 ### `ResponseHandler`
 
-This middleware allows you to use custom response handler instead of `GuzzleHttp\Psr7\Response`. By default it will use `Jenky\Guzzilla\Response` which is a child class of `GuzzleHttp\Psr7\Response`. However you can configure the middleware to use your own implementation.
+This middleware allows you to use custom response handler instead of `GuzzleHttp\Psr7\Response`. By default it will use `Jenky\Guzzilla\Response` which is a child class of `GuzzleHttp\Psr7\Response`. However you can configure the request options to use your own implementation.
 
 ``` php
 'default' => [
-    'middleware' => [
-        Jenky\Guzzilla\Middleware\ResponseHandler::class => [
-            'response' => Jenky\Guzzilla\JsonResponse::class
-        ],
+    'options' => [
+        'base_uri' => 'https://httpbin.org/',
+        // ...
+        'response_handler' => Jenky\Guzzilla\JsonResponse::class,
     ],
 ],
 ```
-
-If you needs more parameters, extends the `ResponseHandler` with your middleware and receive your params in `__construct()`.
 
 ## Usage
 
@@ -192,9 +188,9 @@ Sometimes you may wish to send a request to a channel other than your applicatio
 ``` php
 use Jenky\Guzzila\Facades\Guzzle;
 
-Guzzle::channel('gitlab')->get('https://jsonplaceholder.typicode.com/users');
+Guzzle::channel('custom')->get('https://jsonplaceholder.typicode.com/users');
 // or using helper
-guzzle('gitlab')->get('https://jsonplaceholder.typicode.com/users');
+guzzle('custom')->get('https://jsonplaceholder.typicode.com/users');
 ```
 
 ## Change log
