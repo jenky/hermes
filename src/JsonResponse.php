@@ -5,7 +5,6 @@ namespace Jenky\Guzzilla;
 use ArrayAccess;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Http\JsonResponse as BaseJsonResponse;
 use JsonSerializable;
 
 class JsonResponse extends Response implements ArrayAccess, Arrayable, Jsonable, JsonSerializable

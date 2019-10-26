@@ -13,13 +13,15 @@ class ResponseTest extends TestCase
         $response = $this->httpClient()->get('json');
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('application/json', $response->header('content-type'));
+        $this->assertEquals('application/json', $response->header('Content-Type'));
         $this->assertJson($response->toJson());
+        $this->assertEqualsIgnoringCase('Sample Slide Show', $response->get('slideshow.title'));
+        $this->assertEqualsIgnoringCase('Sample Slide Show', $response->slideshow['title']);
 
         TestResponse::fromBaseResponse(
             new JsonResponse($response->toArray(), $response->getStatusCode(), $response->header())
         )
-            ->assertHeader('content-type', 'application/json')
+            ->assertHeader('Content-Type', 'application/json')
             ->assertSuccessful()
             ->assertJsonStructure([
                 'slideshow' => [
@@ -27,7 +29,7 @@ class ResponseTest extends TestCase
                     'date',
                     'slides',
                     'title',
-                ]
+                ],
             ]);
     }
 

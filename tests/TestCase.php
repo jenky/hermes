@@ -4,9 +4,9 @@ namespace Jenky\Guzzilla\Test;
 
 use Jenky\Guzzilla\Facades\Guzzle;
 use Jenky\Guzzilla\GuzzillaServiceProvider;
+use Jenky\Guzzilla\Interceptors\RequestEvent;
+use Jenky\Guzzilla\Interceptors\ResponseHandler;
 use Jenky\Guzzilla\JsonResponse;
-use Jenky\Guzzilla\Middleware\RequestEvent;
-use Jenky\Guzzilla\Middleware\ResponseHandler;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -56,7 +56,7 @@ class TestCase extends BaseTestCase
             'with' => [
                 //
             ],
-            'middleware' => [
+            'interceptors' => [
                 RequestEvent::class,
                 ResponseHandler::class,
             ],

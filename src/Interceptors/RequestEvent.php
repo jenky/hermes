@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Guzzilla\Middleware;
+namespace Jenky\Guzzilla\Interceptors;
 
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Events\Dispatcher;

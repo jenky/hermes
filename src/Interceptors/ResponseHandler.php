@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Guzzilla\Middleware;
+namespace Jenky\Guzzilla\Interceptors;
 
 use InvalidArgumentException;
 use Jenky\Guzzilla\Contracts\ResponseHandler as ResponseHandlerInterface;
@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 class ResponseHandler
 {
     /**
-     * The response handler class name.
+     * The default response handler class name.
      *
      * @var \Jenky\Guzzilla\Contracts\ResponseHandler
      */

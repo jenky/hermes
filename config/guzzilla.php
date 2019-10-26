@@ -1,6 +1,6 @@
 <?php
 
-use Jenky\Guzzilla\Middleware;
+use Jenky\Guzzilla\Interceptors;
 
 return [
 
@@ -41,9 +41,9 @@ return [
             'with' => [
                 //
             ],
-            'middleware' => [
-                Middleware\RequestEvent::class,
-                Middleware\ResponseHandler::class,
+            'interceptors' => [
+                Interceptors\RequestEvent::class,
+                Interceptors\ResponseHandler::class,
             ],
         ],
     ],

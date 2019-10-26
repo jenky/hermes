@@ -48,8 +48,8 @@ trait InteractsWithGuzzleConfiguration
      */
     protected function prepareHandler(HandlerStack $handler, array $config = [])
     {
-        foreach ($this->middleware($config) as [$middleware, $name]) {
-            $handler->push($middleware, $name);
+        foreach ($this->interceptors($config) as [$interceptor, $name]) {
+            $handler->push($interceptor, $name);
         }
 
         return $this->tap($handler, $config);
@@ -101,20 +101,20 @@ trait InteractsWithGuzzleConfiguration
     }
 
     /**
-     * Get all middleware that will be pushed to handle stack instance.
+     * Get all interceptors that will be pushed to handle stack instance.
      *
      * @param  array $config
      * @return array
      */
-    public function middleware(array $config)
+    public function interceptors(array $config)
     {
-        $middleware = [];
+        $interceptors = [];
 
-        foreach ($config['middleware'] ?? [] as $key => $value) {
-            $middleware[] = $this->parseMiddleware($key, $value);
+        foreach ($config['interceptors'] ?? [] as $key => $value) {
+            $interceptors[] = $this->parseInterceptor($key, $value);
         }
 
-        return $middleware;
+        return $interceptors;
     }
 
     /**
@@ -124,7 +124,7 @@ trait InteractsWithGuzzleConfiguration
      * @param  mixed $value
      * @return array
      */
-    protected function parseMiddleware($key, $value)
+    protected function parseInterceptor($key, $value)
     {
         $name = is_numeric($key) ? '' : $key;
 
