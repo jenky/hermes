@@ -39,11 +39,13 @@ class Response extends GuzzleResponse implements HttpResponseHandler
      */
     public function header($header = null, $default = null)
     {
-        $headers = array_map(function ($values) {
+        if ($header) {
+            return $this->getHeader($header)[0] ?? $default;
+        }
+
+        return array_map(function ($values) {
             return $values[0] ?? null;
         }, $this->getHeaders());
-
-        return $header ? Arr::get($headers, Str::title($header), $default) : $headers;
     }
 
     /**

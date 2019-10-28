@@ -10,7 +10,7 @@ use Jenky\Hermes\Contracts\Hermes;
 
 class GuzzleManager implements Hermes
 {
-    use Concerns\InteractsWithGuzzleConfiguration;
+    use Concerns\InteractsWithConfiguration;
 
     /**
      * The application instance.

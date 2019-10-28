@@ -17,6 +17,9 @@ class ResponseTest extends TestCase
         $this->assertJson($response->toJson());
         $this->assertEqualsIgnoringCase('Sample Slide Show', $response->get('slideshow.title'));
         $this->assertEqualsIgnoringCase('Sample Slide Show', $response->slideshow['title']);
+        // Todo: fix setter
+        // $response->test = true;
+        // $this->assertTrue($response->test);
 
         TestResponse::fromBaseResponse(
             new JsonResponse($response->toArray(), $response->getStatusCode(), $response->header())
@@ -24,6 +27,7 @@ class ResponseTest extends TestCase
             ->assertHeader('Content-Type', 'application/json')
             ->assertSuccessful()
             ->assertJsonStructure([
+                'test',
                 'slideshow' => [
                     'author',
                     'date',

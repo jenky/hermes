@@ -49,7 +49,7 @@ trait InteractsWithResponse
      */
     public function offsetSet($offset, $value)
     {
-        $this->toArray()[$offset] = $value;
+        $this->data[$offset] = $value;
     }
 
     /**
@@ -60,7 +60,7 @@ trait InteractsWithResponse
      */
     public function offsetUnset($offset)
     {
-        unset($this->toArray()[$offset]);
+        unset($this->data[$offset]);
     }
 
     /**

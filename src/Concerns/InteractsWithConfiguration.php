@@ -5,7 +5,7 @@ namespace Jenky\Hermes\Concerns;
 use GuzzleHttp\HandlerStack;
 use Illuminate\Support\Str;
 
-trait InteractsWithGuzzleConfiguration
+trait InteractsWithConfiguration
 {
     /**
      * Create the client handler stack instance.
