@@ -1,10 +1,10 @@
 <?php
 
-namespace Jenky\Guzzilla\Interceptors;
+namespace Jenky\Hermes\Interceptors;
 
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Events\Dispatcher;
-use Jenky\Guzzilla\Events\RequestHandled;
+use Jenky\Hermes\Events\RequestHandled;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -113,7 +113,7 @@ class RequestEvent
      * @param  array $options
      * @return void
      */
-    protected function fireEvent(RequestInterface $request, ?ResponseInterface $response = null, array $options = [])
+    protected function fireEvent(RequestInterface $request, ResponseInterface $response = null, array $options = [])
     {
         if (isset($this->dispatcher)) {
             $this->dispatcher->dispatch(new RequestHandled(

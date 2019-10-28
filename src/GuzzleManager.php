@@ -1,14 +1,14 @@
 <?php
 
-namespace Jenky\Guzzilla;
+namespace Jenky\Hermes;
 
 use Closure;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Contracts\Foundation\Application;
 use InvalidArgumentException;
-use Jenky\Guzzilla\Contracts\Guzzilla;
+use Jenky\Hermes\Contracts\Hermes;
 
-class GuzzleManager implements Guzzilla
+class GuzzleManager implements Hermes
 {
     use Concerns\InteractsWithGuzzleConfiguration;
 
@@ -62,7 +62,7 @@ class GuzzleManager implements Guzzilla
      *
      * @param  string  $name
      * @param  array $options
-     * @return \Jenky\Guzzilla\Contracts\Factory
+     * @return \Jenky\Hermes\Contracts\Factory
      */
     protected function get($name, array $options = [])
     {
@@ -79,7 +79,7 @@ class GuzzleManager implements Guzzilla
      */
     protected function configurationFor($name)
     {
-        return $this->app['config']["guzzilla.channels.{$name}"] ?? [];
+        return $this->app['config']["hermes.channels.{$name}"] ?? [];
     }
 
     /**
@@ -178,7 +178,7 @@ class GuzzleManager implements Guzzilla
      */
     public function getDefaultChannel()
     {
-        return $this->app['config']['guzzilla.default'];
+        return $this->app['config']['hermes.default'];
     }
 
     /**
@@ -189,7 +189,7 @@ class GuzzleManager implements Guzzilla
      */
     public function setDefaultChannel($name)
     {
-        $this->app['config']['guzzilla.default'] = $name;
+        $this->app['config']['hermes.default'] = $name;
     }
 
     /**

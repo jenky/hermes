@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Guzzilla\Contracts;
+namespace Jenky\Hermes\Contracts;
 
 interface HttpResponseHandler extends ResponseHandler
 {

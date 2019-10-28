@@ -1,12 +1,12 @@
 <?php
 
-namespace Jenky\Guzzilla;
+namespace Jenky\Hermes;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
-use Jenky\Guzzilla\Contracts\HttpResponseHandler;
+use Jenky\Hermes\Contracts\HttpResponseHandler;
 use Psr\Http\Message\ResponseInterface;
 
 class Response extends GuzzleResponse implements HttpResponseHandler

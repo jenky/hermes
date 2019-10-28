@@ -1,6 +1,6 @@
 <?php
 
-use Jenky\Guzzilla\Interceptors;
+use Jenky\Hermes\Interceptors;
 
 return [
 
@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('GUZZILLA_CHANNEL', 'default'),
+    'default' => env('HERMES_CHANNEL', 'default'),
 
     /*
     |--------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Guzzilla\Facades;
+namespace Jenky\Hermes\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -13,6 +13,6 @@ class Guzzle extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'guzzilla';
+        return 'hermes';
     }
 }

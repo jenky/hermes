@@ -1,9 +1,9 @@
 <?php
 
-namespace Jenky\Guzzilla\Interceptors;
+namespace Jenky\Hermes\Interceptors;
 
 use InvalidArgumentException;
-use Jenky\Guzzilla\Contracts\ResponseHandler as ResponseHandlerInterface;
+use Jenky\Hermes\Contracts\ResponseHandler as ResponseHandlerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -12,14 +12,14 @@ class ResponseHandler
     /**
      * The default response handler class name.
      *
-     * @var \Jenky\Guzzilla\Contracts\ResponseHandler
+     * @var \Jenky\Hermes\Contracts\ResponseHandler
      */
     protected $response;
 
     /**
      * Create a new handler instance.
      *
-     * @param  \Jenky\Guzzilla\Contracts\ResponseHandler|null $response
+     * @param  \Jenky\Hermes\Contracts\ResponseHandler|null $response
      * @return void
      */
     public function __construct(ResponseHandlerInterface $response = null)

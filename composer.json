@@ -1,5 +1,5 @@
 {
-    "name": "jenky/guzzilla",
+    "name": "jenky/hermes",
     "type": "library",
     "description": "Laravel guzzle manager",
     "keywords": [
@@ -12,7 +12,7 @@
         "jenky",
         "guzzila"
     ],
-    "homepage": "https://github.com/jenky/guzzilla",
+    "homepage": "https://github.com/jenky/hermes",
     "license": "MIT",
     "authors": [
         {
@@ -35,12 +35,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Jenky\\Guzzilla\\": "src"
+            "Jenky\\Hermes\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Jenky\\Guzzilla\\Test\\": "tests"
+            "Jenky\\Hermes\\Test\\": "tests"
         },
         "files": [
             "src/helpers.php"
@@ -57,10 +57,10 @@
         },
         "laravel": {
             "providers": [
-                "Jenky\\Guzzilla\\GuzzillaServiceProvider"
+                "Jenky\\Hermes\\HermesServiceProvider"
             ],
             "aliases": {
-                "Guzzle": "Jenky\\Guzzilla\\Facades\\Guzzle"
+                "Guzzle": "Jenky\\Hermes\\Facades\\Guzzle"
             }
         }
     },

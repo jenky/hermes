@@ -1,12 +1,12 @@
 <?php
 
-namespace Jenky\Guzzilla\Test;
+namespace Jenky\Hermes\Test;
 
-use Jenky\Guzzilla\Facades\Guzzle;
-use Jenky\Guzzilla\GuzzillaServiceProvider;
-use Jenky\Guzzilla\Interceptors\RequestEvent;
-use Jenky\Guzzilla\Interceptors\ResponseHandler;
-use Jenky\Guzzilla\JsonResponse;
+use Jenky\Hermes\Facades\Guzzle;
+use Jenky\Hermes\HermesServiceProvider;
+use Jenky\Hermes\Interceptors\RequestEvent;
+use Jenky\Hermes\Interceptors\ResponseHandler;
+use Jenky\Hermes\JsonResponse;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -20,7 +20,7 @@ class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            GuzzillaServiceProvider::class,
+            HermesServiceProvider::class,
         ];
     }
 
@@ -42,7 +42,7 @@ class TestCase extends BaseTestCase
             'prefix' => '',
         ]);
 
-        $config->set('guzzilla.channels.httpbin', [
+        $config->set('hermes.channels.httpbin', [
             'driver' => 'guzzle',
             'options' => [
                 'base_uri' => 'https://httpbin.org',
@@ -67,7 +67,7 @@ class TestCase extends BaseTestCase
      * Get the httpbin client.
      *
      * @param  array $options
-     * @return \Jenky\Guzzilla\GuzzleManager
+     * @return \Jenky\Hermes\GuzzleManager
      */
     protected function httpClient(array $options = [])
     {

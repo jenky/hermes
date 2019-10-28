@@ -1,4 +1,4 @@
-# Guzzilla
+# Hermes
 
 [![Build Status][ico-travis]][link-travis]
 [![Latest Version on Packagist][ico-version]][link-packagist]
@@ -9,13 +9,13 @@ The package provides a nice and easy wrapper around Guzzle for use in your Larav
 
 ## Install
 
-You may use Composer to install Guzzilla into your Laravel project:
+You may use Composer to install Hermes into your Laravel project:
 
 ``` bash
-$ composer require jenky/guzzilla
+$ composer require jenky/hermes
 ```
 
-After installing Guzzilla, publish its assets using the `vendor:publish` Artisan command.
+After installing Hermes, publish its assets using the `vendor:publish` Artisan command.
 
 ``` bash
 php artisan vendor:publish
@@ -24,12 +24,12 @@ php artisan vendor:publish
 or
 
 ``` bash
-php artisan vendor:publish --provider="Jenky\Guzzilla\GuzzillaServiceProvider"
+php artisan vendor:publish --provider="Jenky\Hermes\HermesServiceProvider"
 ```
 
 ## Configuration
 
-After publishing Guzzilla's assets, its primary configuration file will be located at `config/guzzilla.php`. This configuration file allows you to configure your guzzle client options and each configuration option includes a description of its purpose, so be sure to thoroughly explore this file.
+After publishing Hermes's assets, its primary configuration file will be located at `config/hermes.php`. This configuration file allows you to configure your guzzle client options and each configuration option includes a description of its purpose, so be sure to thoroughly explore this file.
 
 ### Channel configuration
 
@@ -55,7 +55,7 @@ By default, guzzle will choose the most appropriate handler based on the extensi
 
 ``` php
 'default' => [
-    'handler' => App\Http\CustomGuzzleHandler::class,
+    'handler' => App\Http\CustomCurlHandler::class,
     'with' => [
         'delay' => 5,
     ],
@@ -67,24 +67,24 @@ An alternative way is set the handler in the [`options`](#configure-the-guzzle-o
 ``` php
 'default' => [
     'options' => [
-        'handler' => App\Http\CustomGuzzleHandler::create(['delay' => 5]),
+        'handler' => App\Http\CustomCurlHandler::create(['delay' => 5]),
     ],
 ],
 ```
 
-### Configure the guzzle middleware
+### Configure the guzzle interceptors
 
 Configure guzzle [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#middleware) within the channel.
 
 ``` php
 'default' => [
-    'middleware' => [
-        Jenky\Guzzilla\Middleware\RequestEvent::class,
+    'interceptors' => [
+        Jenky\Hermes\Interceptor\RequestEvent::class,
     ],
 ],
 ```
 
-> The package ships with 2 middleware. You can read about the middleware in the [middleware](#middleware) section.
+> The package ships with 2 interceptors. You can read about the interceptors in the [middleware](#middleware) section.
 
 
 ### Customizing the guzzle handler stack
@@ -134,7 +134,7 @@ class CustomizeHandlerStack
 
 ### `RequestEvent`
 
-This middleware will fire `Jenky\Guzzilla\Events\RequestHandled` event when a request had been fulfilled. It has these properties:
+This middleware will fire `Jenky\Hermes\Events\RequestHandled` event when a request had been fulfilled. It has these properties:
 
 ``` php
 /**
@@ -161,14 +161,18 @@ public $options;
 
 ### `ResponseHandler`
 
-This middleware allows you to use custom response handler instead of `GuzzleHttp\Psr7\Response`. By default it will use `Jenky\Guzzilla\Response` which is a child class of `GuzzleHttp\Psr7\Response`. However you can configure the request options to use your own implementation.
+When sending the request, `GuzzleHttp\Psr7\Response` will be used as the default response handler. However you can configure the request options to use your own response handler.
 
 ``` php
 'default' => [
     'options' => [
         'base_uri' => 'https://httpbin.org/',
         // ...
-        'response_handler' => Jenky\Guzzilla\JsonResponse::class,
+        'response_handler' => Jenky\Hermes\JsonResponse::class,
+    ],
+    'interceptors' => [
+        Jenky\Hermes\Interceptors\ResponseHandler::class,
+        // ...
     ],
 ],
 ```
@@ -176,7 +180,7 @@ This middleware allows you to use custom response handler instead of `GuzzleHttp
 ## Usage
 
 ``` php
-use Jenky\Guzzila\Facades\Guzzle;
+use Jenky\Hermes\Facades\Guzzle;
 
 Guzzle::get('https://jsonplaceholder.typicode.com/users');
 // or using helper
@@ -186,7 +190,7 @@ guzzle()->get('https://jsonplaceholder.typicode.com/users');
 Sometimes you may wish to send a request to a channel other than your application's default channel. You may use the `channel` method on the `Guzzle` facade to retrieve and send to any channel defined in your configuration file:
 
 ``` php
-use Jenky\Guzzila\Facades\Guzzle;
+use Jenky\Hermes\Facades\Guzzle;
 
 Guzzle::channel('custom')->get('https://jsonplaceholder.typicode.com/users');
 // or using helper
@@ -220,17 +224,17 @@ If you discover any security related issues, please email contact@lynh.me instea
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/jenky/guzzilla.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/jenky/hermes.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/jenky/guzzilla/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/guzzilla.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/guzzilla.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/jenky/guzzilla.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/jenky/hermes/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/hermes.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/hermes.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/jenky/hermes.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/jenky/guzzilla
-[link-travis]: https://travis-ci.org/jenky/guzzilla
-[link-scrutinizer]: https://scrutinizer-ci.com/g/jenky/guzzilla/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/jenky/guzzilla
-[link-downloads]: https://packagist.org/packages/jenky/guzzilla
+[link-packagist]: https://packagist.org/packages/jenky/hermes
+[link-travis]: https://travis-ci.org/jenky/hermes
+[link-scrutinizer]: https://scrutinizer-ci.com/g/jenky/hermes/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/jenky/hermes
+[link-downloads]: https://packagist.org/packages/jenky/hermes
 [link-author]: https://github.com/jenky
 [link-contributors]: ../../contributors

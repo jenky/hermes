@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="guzzilla">
-    <description>The coding standard of guzzilla package</description>
+<ruleset name="hermes">
+    <description>The coding standard of hermes package</description>
     <arg value="p" />
 
     <config name="ignore_warnings_on_exit" value="1" />

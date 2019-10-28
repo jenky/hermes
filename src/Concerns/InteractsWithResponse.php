@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Guzzilla\Concerns;
+namespace Jenky\Hermes\Concerns;
 
 use Illuminate\Support\Arr;
 

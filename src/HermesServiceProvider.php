@@ -1,11 +1,11 @@
 <?php
 
-namespace Jenky\Guzzilla;
+namespace Jenky\Hermes;
 
 use Illuminate\Support\ServiceProvider;
-use Jenky\Guzzilla\Contracts\Guzzilla;
+use Jenky\Hermes\Contracts\Hermes;
 
-class GuzzillaServiceProvider extends ServiceProvider
+class HermesServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any package services.
@@ -25,14 +25,14 @@ class GuzzillaServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/guzzilla.php', 'guzzilla'
+            __DIR__.'/../config/hermes.php', 'hermes'
         );
 
-        $this->app->singleton(Guzzilla::class, function ($app) {
+        $this->app->singleton(Hermes::class, function ($app) {
             return new GuzzleManager($app);
         });
 
-        $this->app->alias(Guzzilla::class, 'guzzilla');
+        $this->app->alias(Hermes::class, 'hermes');
     }
 
     /**
@@ -44,8 +44,8 @@ class GuzzillaServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/guzzilla.php' => config_path('guzzilla.php'),
-            ], 'guzzilla-config');
+                __DIR__.'/../config/hermes.php' => config_path('hermes.php'),
+            ], 'hermes-config');
         }
     }
 }

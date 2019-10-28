@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Guzzilla\Test;
+namespace Jenky\Hermes\Test;
 
 use GuzzleHttp\Client;
 

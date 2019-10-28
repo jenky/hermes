@@ -1,10 +1,10 @@
 <?php
 
-namespace Jenky\Guzzilla\Test;
+namespace Jenky\Hermes\Test;
 
 use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Http\JsonResponse;
-use Jenky\Guzzilla\Response;
+use Jenky\Hermes\Response;
 
 class ResponseTest extends TestCase
 {

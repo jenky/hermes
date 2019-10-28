@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Guzzilla\Events;
+namespace Jenky\Hermes\Events;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Jenky\Guzzilla\Contracts;
+namespace Jenky\Hermes\Contracts;
 
-interface Guzzilla
+interface Hermes
 {
     /**
      * Get a client instance.

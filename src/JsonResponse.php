@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\Guzzilla;
+namespace Jenky\Hermes;
 
 use ArrayAccess;
 use Illuminate\Contracts\Support\Arrayable;
