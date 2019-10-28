@@ -3,7 +3,7 @@
 namespace Jenky\Hermes\Interceptors;
 
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 use Jenky\Hermes\Events\RequestHandled;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
