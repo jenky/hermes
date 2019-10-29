@@ -12,13 +12,6 @@ class JsonResponse extends Response implements ArrayAccess, Arrayable, Jsonable,
     use Concerns\InteractsWithResponse;
 
     /**
-     * The JSON data.
-     *
-     * @var array
-     */
-    protected $data;
-
-    /**
      * Get the instance as an array.
      *
      * @return array

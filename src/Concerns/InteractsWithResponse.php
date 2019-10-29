@@ -7,6 +7,13 @@ use Illuminate\Support\Arr;
 trait InteractsWithResponse
 {
     /**
+     * The response data.
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
      * Get an attribute from the fluent instance.
      *
      * @param  string  $key
@@ -71,7 +78,7 @@ trait InteractsWithResponse
      */
     public function __get($key)
     {
-        return $this->get($key);
+        return $this->offsetGet($key);
     }
 
     /**

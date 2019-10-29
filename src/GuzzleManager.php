@@ -3,7 +3,7 @@
 namespace Jenky\Hermes;
 
 use Closure;
-use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Client;
 use Illuminate\Contracts\Foundation\Application;
 use InvalidArgumentException;
 use Jenky\Hermes\Contracts\Hermes;
@@ -168,7 +168,7 @@ class GuzzleManager implements Hermes
         $options = $config['options'] ?? [];
         $options['handler'] = $options['handler'] ?? $this->createHandler($config);
 
-        return new GuzzleClient($options);
+        return new Client($options);
     }
 
     /**
