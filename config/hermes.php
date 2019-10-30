@@ -34,16 +34,8 @@ return [
             'options' => [
                 //
             ],
-            'tap' => [
-                //
-            ],
-            'handler' => null,
-            'with' => [
-                //
-            ],
             'interceptors' => [
                 Interceptors\RequestEvent::class,
-                Interceptors\ResponseHandler::class,
             ],
         ],
     ],
