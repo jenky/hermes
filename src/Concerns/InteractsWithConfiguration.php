@@ -64,10 +64,10 @@ trait InteractsWithConfiguration
      */
     protected function tap(HandlerStack $handler, array $config = [])
     {
-        foreach ($config['tap'] ?? [] as $key => $value) {
-            [$class, $arguments] = $this->parseTap($key, $value);
+        foreach ($config['tap'] ?? [] as $tap) {
+            [$class, $arguments] = $this->parseTap($tap);
 
-            $this->app->make($class)->__invoke($handler, ...$arguments);
+            $this->app->make($class)->__invoke($handler, ...explode(',', $arguments));
         }
 
         return $handler;
