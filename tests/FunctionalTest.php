@@ -6,8 +6,11 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Event;
+use Jenky\Hermes\Contracts\HttpResponseHandler;
 use Jenky\Hermes\Events\RequestHandled;
+use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
+use SimpleXMLElement;
 
 class FunctionalTest extends TestCase
 {
@@ -31,9 +34,24 @@ class FunctionalTest extends TestCase
             'tap' => [
                 AddHeaderToRequest::class.':X-Foo,bar',
             ],
-        ])->get('https://httpbin.org/headers');
+        ])->get('headers');
 
         $this->assertEquals('bar', $response->get('headers.X-Foo'));
+    }
+
+    public function test_response_handler()
+    {
+        $response = $this->httpClient()->get('xml', [
+            'response_handler' => XmlResponse::class,
+        ]);
+
+        $this->assertInstanceOf(SimpleXMLElement::class, $response->toXml());
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->httpClient()->get('html', [
+            'response_handler' => InvalidResponseHandler::class,
+        ]);
     }
 }
 
@@ -44,5 +62,18 @@ class AddHeaderToRequest
         $handler->push(Middleware::mapRequest(function (RequestInterface $request) use ($header, $value) {
             return $request->withHeader($header, $value);
         }));
+    }
+}
+
+class InvalidResponseHandler
+{
+
+}
+
+class XmlResponse extends Response implements HttpResponseHandler
+{
+    public function toXml()
+    {
+        return new SimpleXMLElement((string) $this->getBody());
     }
 }
