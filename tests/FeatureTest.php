@@ -12,7 +12,7 @@ use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
 use SimpleXMLElement;
 
-class FunctionalTest extends TestCase
+class FeatureTest extends TestCase
 {
     public function test_client_is_instance_of_guzzle()
     {
