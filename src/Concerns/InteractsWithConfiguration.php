@@ -8,6 +8,20 @@ use Illuminate\Support\Str;
 trait InteractsWithConfiguration
 {
     /**
+     * Make the Guzzle client options from config.
+     *
+     * @param  array $config
+     * @return array
+     */
+    public function makeClientOptions(array $config)
+    {
+        $options = $config['options'] ?? [];
+        $options['handler'] = $options['handler'] ?? $this->createHandler($config);
+
+        return $options;
+    }
+
+    /**
      * Create the client handler stack instance.
      *
      * @param  array $config

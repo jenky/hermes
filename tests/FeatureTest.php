@@ -6,14 +6,58 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Event;
+use Jenky\Hermes\Contracts\Hermes;
 use Jenky\Hermes\Contracts\HttpResponseHandler;
 use Jenky\Hermes\Events\RequestHandled;
+use Jenky\Hermes\JsonResponse;
 use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
 use SimpleXMLElement;
 
 class FeatureTest extends TestCase
 {
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->app[Hermes::class]->extend('json', function ($app, array $config) {
+            return new Client($this->makeClientOptions(
+                array_merge($config, [
+                    'options' => [
+                        'response_handler' => JsonResponse::class,
+                    ],
+                    'interceptors' => [
+                        ResponseHandler::class,
+                    ],
+                ]))
+            );
+        });
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application   $app
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('hermes.channels.jsonplaceholder', [
+            'driver' => 'json',
+            'options' => [
+                'base_uri' => 'https://jsonplaceholder.typicode.com',
+                'http_errors' => false,
+            ]
+        ]);
+    }
+
     public function test_client_is_instance_of_guzzle()
     {
         $this->assertInstanceOf(Client::class, guzzle());
@@ -53,6 +97,11 @@ class FeatureTest extends TestCase
             'response_handler' => InvalidResponseHandler::class,
         ]);
     }
+
+    // public function test_driver()
+    // {
+    //     $response = guzzle('jsonplaceholder')->get('users');
+    // }
 }
 
 class AddHeaderToRequest

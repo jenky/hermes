@@ -143,7 +143,7 @@ class GuzzleManager implements Hermes
     }
 
     /**
-     * Create a custom log driver instance.
+     * Create a custom guzzle driver instance.
      *
      * @param  array  $config
      * @return \GuzzleHttp\ClientInterface
@@ -165,10 +165,7 @@ class GuzzleManager implements Hermes
      */
     protected function createGuzzleDriver(array $config)
     {
-        $options = $config['options'] ?? [];
-        $options['handler'] = $options['handler'] ?? $this->createHandler($config);
-
-        return new Client($options);
+        return new Client($this->makeClientOptions($config));
     }
 
     /**
