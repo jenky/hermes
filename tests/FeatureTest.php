@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Event;
 use Jenky\Hermes\Contracts\Hermes;
 use Jenky\Hermes\Contracts\HttpResponseHandler;
 use Jenky\Hermes\Events\RequestHandled;
+use Jenky\Hermes\Interceptors\ResponseHandler;
 use Jenky\Hermes\JsonResponse;
 use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
@@ -27,7 +28,7 @@ class FeatureTest extends TestCase
 
         $this->app[Hermes::class]->extend('json', function ($app, array $config) {
             return new Client($this->makeClientOptions(
-                array_merge($config, [
+                array_merge_recursive($config, [
                     'options' => [
                         'response_handler' => JsonResponse::class,
                     ],
@@ -54,13 +55,13 @@ class FeatureTest extends TestCase
             'options' => [
                 'base_uri' => 'https://jsonplaceholder.typicode.com',
                 'http_errors' => false,
-            ]
+            ],
         ]);
     }
 
     public function test_client_is_instance_of_guzzle()
     {
-        $this->assertInstanceOf(Client::class, guzzle());
+        $this->assertInstanceOf(Client::class, guzzle()->channel());
     }
 
     public function test_request_event_fired()
@@ -98,10 +99,13 @@ class FeatureTest extends TestCase
         ]);
     }
 
-    // public function test_driver()
-    // {
-    //     $response = guzzle('jsonplaceholder')->get('users');
-    // }
+    public function test_driver()
+    {
+        $response = guzzle('jsonplaceholder')->get('users');
+
+        $this->assertJson((string) $response->getBody());
+        $this->assertNotEmpty($response->toArray());
+    }
 }
 
 class AddHeaderToRequest
@@ -116,7 +120,6 @@ class AddHeaderToRequest
 
 class InvalidResponseHandler
 {
-
 }
 
 class XmlResponse extends Response implements HttpResponseHandler

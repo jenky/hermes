@@ -45,6 +45,16 @@ class GuzzleManager implements Hermes
     }
 
     /**
+     * Get all the channels.
+     *
+     * @return array
+     */
+    public function getChannels()
+    {
+        return $this->channels;
+    }
+
+    /**
      * Get a client instance.
      *
      * @param  string  $channel
@@ -54,17 +64,17 @@ class GuzzleManager implements Hermes
      */
     public function channel($channel = null, array $options = [])
     {
-        return $this->get($channel ?: $this->getDefaultChannel(), $options);
+        return $this->client($channel ?: $this->getDefaultChannel(), $options);
     }
 
     /**
-     * Attempt to get the log from the local cache.
+     * Attempt to get the client from the local cache.
      *
      * @param  string  $name
      * @param  array $options
      * @return \Jenky\Hermes\Contracts\Factory
      */
-    protected function get($name, array $options = [])
+    protected function client($name, array $options = [])
     {
         return $this->channels[$name] ?? with($this->resolve($name, $options), function ($client) use ($name) {
             return $this->channels[$name] = $client;
