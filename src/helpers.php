@@ -10,6 +10,6 @@ if (! function_exists('guzzle')) {
      */
     function guzzle($channel = null, array $options = [])
     {
-        return $channel ? app('hermes') : app('hermes')->channel($channel, $options);
+        return $channel ? app('hermes')->channel($channel, $options) : app('hermes');
     }
 }
