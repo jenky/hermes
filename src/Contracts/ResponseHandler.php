@@ -10,7 +10,7 @@ interface ResponseHandler extends ResponseInterface
      * Create new response handle instance.
      *
      * @param  \Psr\Http\Message\ResponseInterface $response
-     * @return \Psr\Http\Message\ResponseHandler
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public static function create(ResponseInterface $response): ResponseInterface;
 
