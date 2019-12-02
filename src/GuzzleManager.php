@@ -72,7 +72,7 @@ class GuzzleManager implements Hermes
      *
      * @param  string  $name
      * @param  array $options
-     * @return \Jenky\Hermes\Contracts\Factory
+     * @return \GuzzleHttp\Client
      */
     protected function client($name, array $options = [])
     {
@@ -98,7 +98,7 @@ class GuzzleManager implements Hermes
      * @param  string  $name
      * @param  array $options
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\ClientInterface
+     * @return \GuzzleHttp\Client
      */
     protected function resolve($name, array $options = [])
     {
@@ -156,7 +156,7 @@ class GuzzleManager implements Hermes
      * Create a custom guzzle driver instance.
      *
      * @param  array  $config
-     * @return \GuzzleHttp\ClientInterface
+     * @return \GuzzleHttp\Client
      */
     protected function createCustomDriver(array $config)
     {
@@ -171,7 +171,7 @@ class GuzzleManager implements Hermes
      * @param  array  $config
      * @throws \InvalidArgumentException
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * @return \GuzzleHttp\ClientInterface
+     * @return \GuzzleHttp\Client
      */
     protected function createGuzzleDriver(array $config)
     {
