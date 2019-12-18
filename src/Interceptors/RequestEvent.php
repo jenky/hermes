@@ -115,7 +115,7 @@ class RequestEvent
      */
     protected function fireEvent(RequestInterface $request, ResponseInterface $response = null, array $options = [])
     {
-        if (isset($this->dispatcher)) {
+        if ($this->dispatcher) {
             $this->dispatcher->dispatch(new RequestHandled(
                 $request, $response, $options
             ));
