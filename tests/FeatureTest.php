@@ -57,6 +57,11 @@ class FeatureTest extends TestCase
                 'http_errors' => false,
             ],
         ]);
+
+        $app['config']->set('hermes.channels.custom', [
+            'driver' => 'custom',
+            'via' => CreateCustomDriver::class,
+        ]);
     }
 
     public function test_client_is_instance_of_guzzle()
@@ -105,6 +110,21 @@ class FeatureTest extends TestCase
 
         $this->assertJson((string) $response->getBody());
         $this->assertNotEmpty($response->toArray());
+    }
+
+    public function test_custom_driver()
+    {
+        $response = guzzle('custom')->get('https://example.com');
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+}
+
+class CreateCustomDriver
+{
+    public function __invoke(array $config)
+    {
+        return new Client($config['options'] ?? []);
     }
 }
 

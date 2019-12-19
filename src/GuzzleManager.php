@@ -106,7 +106,7 @@ class GuzzleManager implements Hermes
             $this->configurationFor($name), $options
         );
 
-        if (is_null($config)) {
+        if (empty($config)) {
             throw new InvalidArgumentException("Guzzle channel [{$name}] is not defined.");
         }
 
