@@ -193,9 +193,9 @@ Sometimes you may wish to send a request to a channel other than your applicatio
 ``` php
 use Jenky\Hermes\Facades\Guzzle;
 
-Guzzle::channel('custom')->get('https://jsonplaceholder.typicode.com/users');
+Guzzle::channel('my_channel')->get('https://jsonplaceholder.typicode.com/users');
 // or using helper
-guzzle('custom')->get('https://jsonplaceholder.typicode.com/users');
+guzzle('my_channel')->get('https://jsonplaceholder.typicode.com/users');
 ```
 
 ## Change log
