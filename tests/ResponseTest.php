@@ -20,6 +20,9 @@ class ResponseTest extends TestCase
         $response->test = true;
         $this->assertTrue($response->test);
 
+        $response['exception'] = false;
+        $this->assertFalse($response['exception']);
+
         TestResponse::fromBaseResponse(
             new JsonResponse($response->toArray(), $response->getStatusCode(), $response->header())
         )
@@ -27,6 +30,7 @@ class ResponseTest extends TestCase
             ->assertSuccessful()
             ->assertJsonStructure([
                 'test',
+                'exception',
                 'slideshow' => [
                     'author',
                     'date',
@@ -37,6 +41,11 @@ class ResponseTest extends TestCase
 
         unset($response->test);
         $this->assertFalse(isset($response->test));
+        $this->assertFalse(isset($response['test']));
+
+        unset($response['exception']);
+        $this->assertFalse(isset($response->exception));
+        $this->assertFalse(isset($response['exception']));
     }
 
     public function test_xml_response()

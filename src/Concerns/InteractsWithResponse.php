@@ -2,7 +2,7 @@
 
 namespace Jenky\Hermes\Concerns;
 
-use Illuminate\Support\Arr;
+use Illuminate\Support\Optional;
 
 trait InteractsWithResponse
 {
@@ -14,60 +14,40 @@ trait InteractsWithResponse
     protected $data;
 
     /**
-     * Get an attribute from the fluent instance.
+     * Get an attribute from the response data.
      *
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param  string $key
+     * @param  mixed $default
      * @return mixed
      */
     public function get($key, $default = null)
     {
-        return Arr::get($this->toArray(), $key, $default);
+        return data_get($this->data, $key, $default);
     }
 
     /**
-     * Determine if the given offset exists.
+     * Set an attribute to the response data.
      *
-     * @param  string  $offset
+     * @param  string $key
+     * @param  mixed $value
+     * @return array
+     */
+    public function set($key, $value)
+    {
+        return data_set($this->data, $key, $value);
+    }
+
+    /**
+     * Determine if the given key exists in the response body.
+     *
+     * @param  string|array  $key
      * @return bool
      */
-    public function offsetExists($offset)
+    public function exists($key)
     {
-        return isset($this->toArray()[$offset]);
-    }
+        $optional = new Optional($this->data);
 
-    /**
-     * Get the value for a given offset.
-     *
-     * @param  string  $offset
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        return $this->get($offset);
-    }
-
-    /**
-     * Set the value at the given offset.
-     *
-     * @param  string  $offset
-     * @param  mixed   $value
-     * @return void
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->data[$offset] = $value;
-    }
-
-    /**
-     * Unset the value at the given offset.
-     *
-     * @param  string  $offset
-     * @return void
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->data[$offset]);
+        return isset($optional[$key]);
     }
 
     /**
@@ -78,7 +58,7 @@ trait InteractsWithResponse
      */
     public function __get($key)
     {
-        return $this->offsetGet($key);
+        return $this->get($key);
     }
 
     /**
@@ -90,7 +70,7 @@ trait InteractsWithResponse
      */
     public function __set($key, $value)
     {
-        $this->offsetSet($key, $value);
+        $this->set($key, $value);
     }
 
     /**
@@ -101,17 +81,6 @@ trait InteractsWithResponse
      */
     public function __isset($key)
     {
-        return $this->offsetExists($key);
-    }
-
-    /**
-     * Dynamically unset an attribute.
-     *
-     * @param  string  $key
-     * @return void
-     */
-    public function __unset($key)
-    {
-        $this->offsetUnset($key);
+        return $this->exists($key);
     }
 }
