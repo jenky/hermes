@@ -19,7 +19,7 @@ class Response extends GuzzleResponse implements HttpResponseHandler
      */
     public static function create(ResponseInterface $response): ResponseInterface
     {
-        $instance = new static(
+        $handler = new static(
             $response->getStatusCode(),
             $response->getHeaders(),
             $response->getBody(),
@@ -27,9 +27,9 @@ class Response extends GuzzleResponse implements HttpResponseHandler
             $response->getReasonPhrase()
         );
 
-        $instance->transform();
+        $handler->transform();
 
-        return $instance;
+        return $handler;
     }
 
     /**
