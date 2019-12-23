@@ -64,7 +64,9 @@ class GuzzleManager implements Hermes
      */
     public function channel($channel = null, array $options = [])
     {
-        return $this->client($channel ?: $this->getDefaultChannel(), $options);
+        return $this->client(
+            $channel ?: $this->getDefaultChannel(), $options
+        );
     }
 
     /**
