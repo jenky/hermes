@@ -108,6 +108,7 @@ class FeatureTest extends TestCase
     {
         $response = guzzle('jsonplaceholder')->get('users');
 
+        $this->assertEquals(200, $response->getStatusCode());
         $this->assertJson((string) $response->getBody());
         $this->assertNotEmpty($response->toArray());
     }
@@ -117,6 +118,17 @@ class FeatureTest extends TestCase
         $response = guzzle('custom')->get('https://example.com');
 
         $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function test_default_channel()
+    {
+        guzzle()->setDefaultChannel('jsonplaceholder');
+
+        $response = guzzle()->get('users');
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertJson((string) $response->getBody());
+        $this->assertNotEmpty($response->toArray());
     }
 }
 
