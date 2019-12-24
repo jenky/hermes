@@ -5,12 +5,14 @@ namespace Jenky\Hermes;
 use Closure;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Traits\ForwardsCalls;
 use InvalidArgumentException;
 use Jenky\Hermes\Contracts\Hermes;
 
 class GuzzleManager implements Hermes
 {
-    use Concerns\InteractsWithConfiguration;
+    use ForwardsCalls,
+        Concerns\InteractsWithConfiguration;
 
     /**
      * The application instance.
@@ -232,6 +234,6 @@ class GuzzleManager implements Hermes
      */
     public function __call($method, $parameters)
     {
-        return $this->channel()->{$method}(...$parameters);
+        return $this->forwardCallTo($this->channel(), $method, $parameters);
     }
 }
