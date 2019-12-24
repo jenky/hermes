@@ -10,7 +10,6 @@ use Jenky\Hermes\Contracts\Hermes;
 use Jenky\Hermes\Contracts\HttpResponseHandler;
 use Jenky\Hermes\Events\RequestHandled;
 use Jenky\Hermes\Interceptors\ResponseHandler;
-use Jenky\Hermes\JsonResponse;
 use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
 use SimpleXMLElement;
@@ -26,11 +25,11 @@ class FeatureTest extends TestCase
     {
         parent::setUp();
 
-        $this->app[Hermes::class]->extend('json', function ($app, array $config) {
+        $this->app[Hermes::class]->extend('rss', function ($app, array $config) {
             return new Client($this->makeClientOptions(
                 array_merge_recursive($config, [
                     'options' => [
-                        'response_handler' => JsonResponse::class,
+                        'response_handler' => XmlResponse::class,
                     ],
                     'interceptors' => [
                         ResponseHandler::class,
@@ -54,6 +53,14 @@ class FeatureTest extends TestCase
             'driver' => 'json',
             'options' => [
                 'base_uri' => 'https://jsonplaceholder.typicode.com',
+                'http_errors' => false,
+            ],
+        ]);
+
+        $app['config']->set('hermes.channels.googlenews', [
+            'driver' => 'rss',
+            'options' => [
+                'base_uri' => 'https://news.google.com',
                 'http_errors' => false,
             ],
         ]);
@@ -106,11 +113,10 @@ class FeatureTest extends TestCase
 
     public function test_driver()
     {
-        $response = guzzle('jsonplaceholder')->get('users');
+        $response = guzzle('googlenews')->get('news/rss');
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertJson((string) $response->getBody());
-        $this->assertNotEmpty($response->toArray());
+        $this->assertInstanceOf(SimpleXMLElement::class, $response->toXml());
     }
 
     public function test_custom_driver()

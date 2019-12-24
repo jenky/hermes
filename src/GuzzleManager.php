@@ -155,7 +155,7 @@ class GuzzleManager implements Hermes
     }
 
     /**
-     * Create a custom guzzle driver instance.
+     * Create a custom Guzzle driver instance.
      *
      * @param  array  $config
      * @return \GuzzleHttp\Client
@@ -168,7 +168,7 @@ class GuzzleManager implements Hermes
     }
 
     /**
-     * Create an instance of any handler available in Monolog.
+     * Create a default Guzzle driver instance.
      *
      * @param  array  $config
      * @throws \InvalidArgumentException
@@ -178,6 +178,29 @@ class GuzzleManager implements Hermes
     protected function createGuzzleDriver(array $config)
     {
         return new Client($this->makeClientOptions($config));
+    }
+
+    /**
+     * Create a JSON Guzzle driver instance.
+     *
+     * @param  array  $config
+     * @throws \InvalidArgumentException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return \GuzzleHttp\Client
+     */
+    protected function createJsonDriver(array $config)
+    {
+        return new Client($this->makeClientOptions(
+            array_merge_recursive($config, [
+                'options' => [
+                    'response_handler' => JsonResponse::class,
+                ],
+                'interceptors' => [
+                    Interceptors\ResponseHandler::class,
+                    Interceptors\RequestEvent::class,
+                ],
+            ])
+        ));
     }
 
     /**
