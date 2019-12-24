@@ -197,7 +197,6 @@ class GuzzleManager implements Hermes
                 ],
                 'interceptors' => [
                     Interceptors\ResponseHandler::class,
-                    Interceptors\RequestEvent::class,
                 ],
             ])
         ));
