@@ -7,12 +7,12 @@ use GuzzleHttp\Client;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Traits\ForwardsCalls;
 use InvalidArgumentException;
-use Jenky\Hermes\Concerns\InteractsWithConfiguration;
 use Jenky\Hermes\Contracts\Hermes;
 
 class GuzzleManager implements Hermes
 {
-    use ForwardsCalls, InteractsWithConfiguration;
+    use Concerns\InteractsWithConfiguration,
+        ForwardsCalls;
 
     /**
      * The application instance.
