@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Laravel API Test Suite">
+        <testsuite name="Hermes Test Suite">
             <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
