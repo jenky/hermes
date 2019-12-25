@@ -117,7 +117,7 @@ class Response extends GuzzleResponse implements HttpResponseHandler
     }
 
     /**
-     * Checks if HTTP Status code is a Server Error (4xx).
+     * Checks if HTTP Status code is a Server Error (5xx).
      *
      * @return bool
      */
