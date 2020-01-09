@@ -8,6 +8,25 @@
 
 The package provides a nice and easy wrapper around Guzzle for use in your Laravel applications. If you don't know what Guzzle does, [take a peek at their intro](http://docs.guzzlephp.org/en/stable/index.html). Shortly said, Guzzle is a PHP HTTP client that makes it easy to send HTTP requests and trivial to integrate with web service.
 
+- [Hermes](#hermes)
+  - [Install](#install)
+  - [Configuration](#configuration)
+    - [Channel configuration](#channel-configuration)
+    - [Configure the guzzle option](#configure-the-guzzle-option)
+    - [Configure the guzzle handler](#configure-the-guzzle-handler)
+    - [Configure the guzzle interceptors](#configure-the-guzzle-interceptors)
+    - [Customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack)
+  - [Middleware](#middleware)
+    - [RequestEvent](#requestevent)
+    - [ResponseHandler](#responsehandler)
+  - [Usage](#usage)
+  - [Change log](#change-log)
+  - [Testing](#testing)
+  - [Contributing](#contributing)
+  - [Security](#security)
+  - [Credits](#credits)
+  - [License](#license)
+
 ## Install
 
 You may use Composer to install Hermes into your Laravel project:
