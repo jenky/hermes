@@ -35,15 +35,15 @@
     "autoload": {
         "psr-4": {
             "Jenky\\Hermes\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Jenky\\Hermes\\Test\\": "tests"
         },
         "files": [
             "src/helpers.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jenky\\Hermes\\Test\\": "tests"
+        }
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
