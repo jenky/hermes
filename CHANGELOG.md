@@ -4,19 +4,16 @@ All notable changes to `hermes` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## NEXT - YYYY-MM-DD
+## [1.0.1](https://github.com/jenky/hermes/compare/1.0.0...1.0.1) - 2019-12-24
 
 ### Added
-- Nothing
-
-### Deprecated
-- Nothing
+- Json driver
 
 ### Fixed
-- Nothing
+- Some bugs
+- Fixes response handler
 
-### Removed
-- Nothing
+## [1.0.0](https://github.com/jenky/hermes/tree/1.0.1) - 2019-11-04
 
-### Security
-- Nothing
+### Added
+- Initial release
