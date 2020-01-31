@@ -33,7 +33,10 @@ before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
 
 script:
-  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
 
 install:
   - travis_retry composer require "illuminate/contracts=${LARAVEL}" --dev --prefer-dist --no-interaction --no-suggest
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -f "*.xml"
