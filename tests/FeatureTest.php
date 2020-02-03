@@ -126,6 +126,13 @@ class FeatureTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
+    public function test_driver_not_supported()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        guzzle('foo')->get('https://example.com');
+    }
+
     public function test_default_channel()
     {
         guzzle()->setDefaultChannel('jsonplaceholder');
