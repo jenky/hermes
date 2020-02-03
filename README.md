@@ -17,8 +17,8 @@ The package provides a nice and easy wrapper around Guzzle for use in your Larav
     - [Configure the guzzle interceptors](#configure-the-guzzle-interceptors)
     - [Customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack)
   - [Middleware](#middleware)
-    - [RequestEvent](#requestevent)
-    - [ResponseHandler](#responsehandler)
+    - [`RequestEvent`](#requestevent)
+    - [`ResponseHandler`](#responsehandler)
   - [Usage](#usage)
   - [Change log](#change-log)
   - [Testing](#testing)
@@ -141,8 +141,8 @@ class CustomizeHandlerStack
      */
     public function __invoke($stack)
     {
-        $stack->before('add_foo', Middleware::mapRequest(function (RequestInterface $r) {
-            return $r->withHeader('X-Baz', 'Qux');
+        $stack->before('add_foo', Middleware::mapRequest(function (RequestInterface $request) {
+            return $request->withHeader('X-Baz', 'Qux');
         }, 'add_baz');
     }
 }
