@@ -4,6 +4,11 @@ All notable changes to `hermes` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [1.0.2](https://github.com/jenky/hermes/compare/1.0.0...1.0.1) - 2020-03-13
+
+### Fixed
+- Some bugs
+
 ## [1.0.1](https://github.com/jenky/hermes/compare/1.0.0...1.0.1) - 2019-12-24
 
 ### Added
