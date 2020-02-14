@@ -14,7 +14,7 @@ The package provides a nice and easy wrapper around Guzzle for use in your Larav
     - [Channel configuration](#channel-configuration)
     - [Configure the guzzle option](#configure-the-guzzle-option)
     - [Configure the guzzle handler](#configure-the-guzzle-handler)
-    - [Configure the guzzle interceptors](#configure-the-guzzle-interceptors)
+    - [Configure the guzzle middleware / interceptors](#configure-the-guzzle-middleware--interceptors)
     - [Customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack)
   - [Middleware](#middleware)
     - [`RequestEvent`](#requestevent)
@@ -92,7 +92,7 @@ An alternative way is set the handler in the [`options`](#configure-the-guzzle-o
 ],
 ```
 
-### Configure the guzzle interceptors
+### Configure the guzzle middleware / interceptors
 
 Configure guzzle [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#middleware) within the channel.
 
@@ -129,6 +129,7 @@ Once you have configured the `tap` option on your channel, you're ready to defin
 namespace App\Http;
 
 use Psr\Http\Message\RequestInterface;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 
 class CustomizeHandlerStack
@@ -139,7 +140,7 @@ class CustomizeHandlerStack
      * @param  \GuzzleHttp\HandlerStack  $stack
      * @return void
      */
-    public function __invoke($stack)
+    public function __invoke(HandlerStack $stack)
     {
         $stack->before('add_foo', Middleware::mapRequest(function (RequestInterface $request) {
             return $request->withHeader('X-Baz', 'Qux');
