@@ -80,7 +80,7 @@ class GuzzleManager implements Hermes
      */
     protected function client($name, array $options = [])
     {
-        return $this->channels[$name] ?? with($this->resolve($name, $options), function ($client) use ($name) {
+        return $this->channels[$name] ?? tap($this->resolve($name, $options), function ($client) use ($name) {
             return $this->channels[$name] = $client;
         });
     }
