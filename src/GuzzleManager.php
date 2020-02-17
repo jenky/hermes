@@ -82,7 +82,7 @@ class GuzzleManager implements Hermes
     {
         // Remove the cached channel and create new client
         // to mutate the config
-        if (! empty($options) && ! empty($this->channel[$name])) {
+        if (! empty($options) && ! empty($this->channels[$name])) {
             unset($this->channels[$name]);
         }
 
@@ -112,7 +112,7 @@ class GuzzleManager implements Hermes
      */
     protected function resolve($name, array $options = [])
     {
-        $config = array_merge(
+        $config = array_merge_recursive(
             $this->configurationFor($name), $options
         );
 

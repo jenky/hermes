@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use Jenky\Hermes\Contracts\Hermes;
 use Jenky\Hermes\Contracts\HttpResponseHandler;
 use Jenky\Hermes\Events\RequestHandled;
@@ -131,6 +132,29 @@ class FeatureTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         guzzle('foo')->get('https://example.com');
+    }
+
+    public function test_mutable_client()
+    {
+        $response = $this->httpClient()->get('bearer');
+
+        $this->assertTrue($response->isClientError());
+        $this->assertEquals(401, $response->getStatusCode());
+
+        // Mutate the client by creating new client instance
+        $this->httpClient([
+            'options' => [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token = Str::random(),
+                ],
+            ],
+        ]);
+
+        $response = $this->httpClient()->get('bearer');
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertTrue($response->authenticated);
+        $this->assertEquals($token, $response->token);
     }
 
     public function test_default_channel()
