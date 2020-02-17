@@ -16,6 +16,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
+## [1.0.2](https://github.com/jenky/hermes/compare/1.0.2...1.1.0) - 2020-03-17
+
+### Added
+- Prepare for Laravel 7 and Guzzle 7
+
+### Changed
+- Mutable client by passing `$options` argument
+
 ## [1.0.2](https://github.com/jenky/hermes/compare/1.0.1...1.0.2) - 2020-03-13
 
 ### Fixed
