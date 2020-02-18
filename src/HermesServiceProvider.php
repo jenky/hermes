@@ -2,11 +2,10 @@
 
 namespace Jenky\Hermes;
 
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use Jenky\Hermes\Contracts\Hermes;
 
-class HermesServiceProvider extends ServiceProvider implements DeferrableProvider
+class HermesServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any package services.
@@ -48,17 +47,5 @@ class HermesServiceProvider extends ServiceProvider implements DeferrableProvide
                 __DIR__.'/../config/hermes.php' => config_path('hermes.php'),
             ], 'hermes-config');
         }
-    }
-
-    /**
-     * Get the service provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            Hermes::class,
-        ];
     }
 }
