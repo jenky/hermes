@@ -200,11 +200,16 @@ class GuzzleManager implements Hermes
     {
         return new Client($this->makeClientOptions(
             array_merge_recursive($config, [
-                'options' => [
+                /* 'options' => [
                     'response_handler' => JsonResponse::class,
                 ],
                 'interceptors' => [
                     Interceptors\ResponseHandler::class,
+                ], */
+                'interceptors' => [
+                    Interceptors\ResponseHandler::class => [
+                        'response' => JsonResponse::class,
+                    ],
                 ],
             ])
         ));

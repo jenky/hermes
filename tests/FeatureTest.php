@@ -8,9 +8,9 @@ use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Jenky\Hermes\Contracts\Hermes;
-use Jenky\Hermes\Contracts\HttpResponseHandler;
 use Jenky\Hermes\Events\RequestHandled;
 use Jenky\Hermes\Interceptors\ResponseHandler;
+use Jenky\Hermes\JsonResponse;
 use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
 use SimpleXMLElement;
@@ -55,6 +55,14 @@ class FeatureTest extends TestCase
             'options' => [
                 'base_uri' => 'https://jsonplaceholder.typicode.com',
                 'http_errors' => false,
+            ],
+        ]);
+
+        $app['config']->set('hermes.channels.reqres', [
+            'driver' => 'json',
+            'options' => [
+                'base_uri' => 'https://reqres.in',
+                'response_handler' => ReqresResponse::class,
             ],
         ]);
 
@@ -118,6 +126,13 @@ class FeatureTest extends TestCase
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertInstanceOf(SimpleXMLElement::class, $response->toXml());
+    }
+
+    public function test_json_driver()
+    {
+        $response = guzzle('reqres')->get('api/users');
+
+        $this->assertTrue($response->isSuccessful());
     }
 
     public function test_custom_driver()
@@ -191,10 +206,18 @@ class InvalidResponseHandler
 {
 }
 
-class XmlResponse extends Response implements HttpResponseHandler
+class XmlResponse extends Response
 {
     public function toXml()
     {
         return new SimpleXMLElement((string) $this->getBody());
+    }
+}
+
+class ReqresResponse extends JsonResponse
+{
+    public function isSuccessful(): bool
+    {
+        return parent::isSuccessful() && ! empty($this->get('data'));
     }
 }
