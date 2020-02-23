@@ -15,3 +15,45 @@ if (! function_exists('guzzle')) {
         return $channel ? app(Hermes::class)->channel($channel, $options) : app(Hermes::class);
     }
 }
+
+if (! function_exists('array_merge_recursive_distinct')) {
+    /**
+     * Merges any number of arrays / parameters recursively, using the left array as base, giving priority to the right array.
+     * Replacing entries with string keys with values from latter arrays.
+     *
+     * @return array
+     */
+    function array_merge_recursive_distinct()
+    {
+        $arrays = func_get_args();
+
+        if (count($arrays) < 2) {
+            if ($arrays === []) {
+                return [];
+            } else {
+                return $arrays[0];
+            }
+        }
+
+        $merged = array_shift($arrays);
+
+        foreach ($arrays as $array) {
+            foreach ($array as $key => $value) {
+                if (is_array($value) && (isset($merged[$key]) && is_array($merged[$key]))) {
+                    $merged[$key] = array_merge_recursive_distinct($merged[$key], $value);
+                } else {
+                    if (is_numeric($key)) {
+                        if (! in_array($value, $merged)) {
+                            $merged[] = $value;
+                        }
+                    } else {
+                        $merged[$key] = $value;
+                    }
+                }
+            }
+            unset($key, $value);
+        }
+
+        return $merged;
+    }
+}

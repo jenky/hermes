@@ -157,11 +157,25 @@ class FeatureTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
 
         // Mutate the client by creating new client instance
+        $apiKey = (string) Str::uuid();
+
         $this->httpClient([
             'options' => [
                 'headers' => [
                     'Authorization' => 'Bearer '.$token = Str::random(),
                 ],
+            ],
+            'interceptors' => [
+                function (callable $handler) use ($apiKey) {
+                    return function (RequestInterface $request, array $options) use ($handler, $apiKey) {
+                        $request = $request->withHeader('X-Api-Key', $apiKey);
+
+                        return $handler($request, $options);
+                    };
+                },
+                Middleware::mapRequest(function (RequestInterface $request) {
+                    return $request->withHeader('Foo', 'Bar');
+                }),
             ],
         ]);
 
@@ -170,6 +184,12 @@ class FeatureTest extends TestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertTrue($response->authenticated);
         $this->assertEquals($token, $response->token);
+
+        $response = $this->httpClient()->get('anything');
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals($response->get('headers.X-Api-Key'), $apiKey);
+        $this->assertEquals($response->get('headers.Foo'), 'Bar');
     }
 
     public function test_default_channel()
