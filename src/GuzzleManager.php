@@ -199,14 +199,14 @@ class GuzzleManager implements Hermes
     protected function createJsonDriver(array $config)
     {
         return new Client($this->makeClientOptions(
-            array_merge_recursive_distinct($config, [
+            array_merge_recursive_distinct([
                 'options' => [
                     'response_handler' => JsonResponse::class,
                 ],
                 'interceptors' => [
                     Interceptors\ResponseHandler::class,
                 ],
-            ])
+            ], $config)
         ));
     }
 

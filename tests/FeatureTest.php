@@ -28,7 +28,7 @@ class FeatureTest extends TestCase
 
         $this->app[Hermes::class]->extend('rss', function ($app, array $config) {
             return new Client($this->makeClientOptions(
-                array_merge_recursive($config, [
+                array_merge_recursive_distinct($config, [
                     'options' => [
                         'response_handler' => XmlResponse::class,
                     ],
@@ -132,6 +132,7 @@ class FeatureTest extends TestCase
     {
         $response = guzzle('reqres')->get('api/users');
 
+        $this->assertInstanceOf(ReqresResponse::class, $response);
         $this->assertTrue($response->isSuccessful());
     }
 
