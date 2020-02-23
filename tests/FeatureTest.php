@@ -8,9 +8,9 @@ use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Jenky\Hermes\Contracts\Hermes;
-use Jenky\Hermes\Contracts\HttpResponseHandler;
 use Jenky\Hermes\Events\RequestHandled;
 use Jenky\Hermes\Interceptors\ResponseHandler;
+use Jenky\Hermes\JsonResponse;
 use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
 use SimpleXMLElement;
@@ -28,7 +28,7 @@ class FeatureTest extends TestCase
 
         $this->app[Hermes::class]->extend('rss', function ($app, array $config) {
             return new Client($this->makeClientOptions(
-                array_merge_recursive($config, [
+                array_merge_recursive_unique($config, [
                     'options' => [
                         'response_handler' => XmlResponse::class,
                     ],
@@ -55,6 +55,14 @@ class FeatureTest extends TestCase
             'options' => [
                 'base_uri' => 'https://jsonplaceholder.typicode.com',
                 'http_errors' => false,
+            ],
+        ]);
+
+        $app['config']->set('hermes.channels.reqres', [
+            'driver' => 'json',
+            'options' => [
+                'base_uri' => 'https://reqres.in',
+                'response_handler' => ReqresResponse::class,
             ],
         ]);
 
@@ -120,6 +128,14 @@ class FeatureTest extends TestCase
         $this->assertInstanceOf(SimpleXMLElement::class, $response->toXml());
     }
 
+    public function test_json_driver()
+    {
+        $response = guzzle('reqres')->get('api/users');
+
+        $this->assertInstanceOf(ReqresResponse::class, $response);
+        $this->assertTrue($response->isSuccessful());
+    }
+
     public function test_custom_driver()
     {
         $response = guzzle('custom')->get('https://example.com');
@@ -142,11 +158,25 @@ class FeatureTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
 
         // Mutate the client by creating new client instance
+        $apiKey = (string) Str::uuid();
+
         $this->httpClient([
             'options' => [
                 'headers' => [
                     'Authorization' => 'Bearer '.$token = Str::random(),
                 ],
+            ],
+            'interceptors' => [
+                function (callable $handler) use ($apiKey) {
+                    return function (RequestInterface $request, array $options) use ($handler, $apiKey) {
+                        $request = $request->withHeader('X-Api-Key', $apiKey);
+
+                        return $handler($request, $options);
+                    };
+                },
+                Middleware::mapRequest(function (RequestInterface $request) {
+                    return $request->withHeader('Foo', 'Bar');
+                }),
             ],
         ]);
 
@@ -155,6 +185,12 @@ class FeatureTest extends TestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertTrue($response->authenticated);
         $this->assertEquals($token, $response->token);
+
+        $response = $this->httpClient()->get('anything');
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals($response->get('headers.X-Api-Key'), $apiKey);
+        $this->assertEquals($response->get('headers.Foo'), 'Bar');
     }
 
     public function test_default_channel()
@@ -191,10 +227,18 @@ class InvalidResponseHandler
 {
 }
 
-class XmlResponse extends Response implements HttpResponseHandler
+class XmlResponse extends Response
 {
     public function toXml()
     {
         return new SimpleXMLElement((string) $this->getBody());
+    }
+}
+
+class ReqresResponse extends JsonResponse
+{
+    public function isSuccessful(): bool
+    {
+        return parent::isSuccessful() && ! empty($this->get('data'));
     }
 }
