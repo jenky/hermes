@@ -112,7 +112,7 @@ class GuzzleManager implements Hermes
      */
     protected function resolve($name, array $options = [])
     {
-        $config = array_merge_recursive_distinct(
+        $config = array_merge_recursive_unique(
             $this->configurationFor($name), $options
         );
 
@@ -199,7 +199,7 @@ class GuzzleManager implements Hermes
     protected function createJsonDriver(array $config)
     {
         return new Client($this->makeClientOptions(
-            array_merge_recursive_distinct([
+            array_merge_recursive_unique([
                 'options' => [
                     'response_handler' => JsonResponse::class,
                 ],

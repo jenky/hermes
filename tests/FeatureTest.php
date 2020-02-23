@@ -28,7 +28,7 @@ class FeatureTest extends TestCase
 
         $this->app[Hermes::class]->extend('rss', function ($app, array $config) {
             return new Client($this->makeClientOptions(
-                array_merge_recursive_distinct($config, [
+                array_merge_recursive_unique($config, [
                     'options' => [
                         'response_handler' => XmlResponse::class,
                     ],

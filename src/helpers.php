@@ -16,14 +16,13 @@ if (! function_exists('guzzle')) {
     }
 }
 
-if (! function_exists('array_merge_recursive_distinct')) {
+if (! function_exists('array_merge_recursive_unique')) {
     /**
-     * Merges any number of arrays / parameters recursively, using the left array as base, giving priority to the right array.
-     * Replacing entries with string keys with values from latter arrays.
+     * Merges any number of arrays / parameters recursively, using the left array as base, giving priority to the right array. Replacing entries with string keys with values from latter arrays.
      *
      * @return array
      */
-    function array_merge_recursive_distinct()
+    function array_merge_recursive_unique()
     {
         $arrays = func_get_args();
 
@@ -40,7 +39,7 @@ if (! function_exists('array_merge_recursive_distinct')) {
         foreach ($arrays as $array) {
             foreach ($array as $key => $value) {
                 if (is_array($value) && (isset($merged[$key]) && is_array($merged[$key]))) {
-                    $merged[$key] = array_merge_recursive_distinct($merged[$key], $value);
+                    $merged[$key] = array_merge_recursive_unique($merged[$key], $value);
                 } else {
                     if (is_numeric($key)) {
                         if (! in_array($value, $merged)) {
