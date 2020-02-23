@@ -16,13 +16,13 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
-[Unreleased]
+## [Unreleased]
 
 ### Fixed
 - Fixed merges config recursively
 
 ### Changed
-- Response handler instructor now accepts class name instead of object
+- Response handler constructor now accepts class name instead of object
 
 ## [1.1.0](https://github.com/jenky/hermes/compare/1.0.2...1.1.0) - 2020-03-17
 
