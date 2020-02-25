@@ -182,10 +182,11 @@ public $options;
 
 ### `ResponseHandler`
 
-When sending the request, `GuzzleHttp\Psr7\Response` will be used as the default response handler. However you can configure the request options to use your own response handler.
+When sending the request, `GuzzleHttp\Psr7\Response` will be used as the default response handler. However you can configure the request options to use your own response handler. Please note that response handler must be an instance of `Psr\Http\Message\ResponseInterface`
 
 ``` php
 'default' => [
+    'driver' => 'guzzle',
     'options' => [
         'base_uri' => 'https://httpbin.org/',
         // ...
@@ -198,7 +199,7 @@ When sending the request, `GuzzleHttp\Psr7\Response` will be used as the default
 ],
 ```
 
-> `json` driver will set the default `response_handler` to `Jenky\Hermes\JsonResponse`
+> `json` driver will automatically use `Jenky\Hermes\Middleware\ResponseHandler` middleware and set the default `response_handler` to `Jenky\Hermes\JsonResponse`
 
 ## Usage
 
