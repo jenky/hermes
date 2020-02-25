@@ -1,7 +1,5 @@
 <?php
 
-use Jenky\Hermes\Interceptors;
-
 return [
 
     /*
@@ -35,8 +33,8 @@ return [
             'options' => [
                 //
             ],
-            'interceptors' => [
-                Interceptors\RequestEvent::class,
+            'middleware' => [
+                Jenky\Hermes\Middleware\RequestEvent::class,
             ],
         ],
     ],
