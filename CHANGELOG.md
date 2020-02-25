@@ -16,7 +16,15 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
-## [1.0.2](https://github.com/jenky/hermes/compare/1.0.2...1.1.0) - 2020-03-17
+## [1.1.1](https://github.com/jenky/hermes/compare/1.1.0...1.1.1) - 2020-02-25
+
+### Fixed
+- Fixed merges config recursively
+
+### Changed
+- `ResponseHandler` interceptor constructor now accepts class name instead of `ResponseHandlerInterface` instance
+
+## [1.1.0](https://github.com/jenky/hermes/compare/1.0.2...1.1.0) - 2020-02-17
 
 ### Added
 - Prepare for Laravel 7 and Guzzle 7
@@ -24,7 +32,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ### Changed
 - Mutable client by passing `$options` argument
 
-## [1.0.2](https://github.com/jenky/hermes/compare/1.0.1...1.0.2) - 2020-03-13
+## [1.0.2](https://github.com/jenky/hermes/compare/1.0.1...1.0.2) - 2020-02-13
 
 ### Fixed
 - Some bugs

@@ -12,17 +12,17 @@ class ResponseHandler
     /**
      * The default response handler class name.
      *
-     * @var \Jenky\Hermes\Contracts\ResponseHandler
+     * @var string
      */
     protected $response;
 
     /**
      * Create a new handler instance.
      *
-     * @param  \Jenky\Hermes\Contracts\ResponseHandler|null $response
+     * @param  string|null $response
      * @return void
      */
-    public function __construct(ResponseHandlerInterface $response = null)
+    public function __construct($response = null)
     {
         $this->response = $response;
     }
@@ -51,7 +51,9 @@ class ResponseHandler
      */
     protected function createResponseHandler(ResponseInterface $response, array $options): ResponseInterface
     {
-        $handler = $this->getResponseHandler($options) ?: $this->response;
+        $handler = $this->getResponseHandler(
+            $options['response_handler'] ?? $this->response
+        );
 
         return $handler ? $handler::create($response) : $response;
     }
@@ -59,13 +61,11 @@ class ResponseHandler
     /**
      * Get the response handler class name.
      *
-     * @param  array $options
+     * @param  string $handler
      * @return string|null
      */
-    protected function getResponseHandler(array $options)
+    protected function getResponseHandler($handler)
     {
-        $handler = $options['response_handler'] ?? null;
-
         if ($handler && ! is_a($handler, ResponseHandlerInterface::class, true)) {
             throw new InvalidArgumentException(
                 $handler.' must be an instance of '.ResponseHandlerInterface::class
