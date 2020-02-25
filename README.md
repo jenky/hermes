@@ -14,7 +14,7 @@ The package provides a nice and easy wrapper around Guzzle for use in your Larav
     - [Channel configuration](#channel-configuration)
     - [Configure the guzzle option](#configure-the-guzzle-option)
     - [Configure the guzzle handler](#configure-the-guzzle-handler)
-    - [Configure the guzzle middleware / interceptors](#configure-the-guzzle-middleware--interceptors)
+    - [Configure the guzzle middleware](#configure-the-guzzle-middleware)
     - [Customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack)
   - [Middleware](#middleware)
     - [`RequestEvent`](#requestevent)
@@ -92,19 +92,19 @@ An alternative way is set the handler in the [`options`](#configure-the-guzzle-o
 ],
 ```
 
-### Configure the guzzle middleware / interceptors
+### Configure the guzzle middleware
 
 Configure guzzle [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#middleware) within the channel.
 
 ``` php
 'default' => [
-    'interceptors' => [
-        Jenky\Hermes\Interceptor\RequestEvent::class,
+    'middleware' => [
+        Jenky\Hermes\Middleware\RequestEvent::class,
     ],
 ],
 ```
 
-> The package ships with 2 interceptors. You can read about the interceptors in the [middleware](#middleware) section.
+> The package ships with 2 middleware. You can read about the middleware in the [middleware](#middleware) section.
 
 
 ### Customizing the guzzle handler stack
@@ -191,12 +191,14 @@ When sending the request, `GuzzleHttp\Psr7\Response` will be used as the default
         // ...
         'response_handler' => Jenky\Hermes\JsonResponse::class,
     ],
-    'interceptors' => [
-        Jenky\Hermes\Interceptors\ResponseHandler::class,
+    'middleware' => [
+        Jenky\Hermes\Middleware\ResponseHandler::class,
         // ...
     ],
 ],
 ```
+
+> `json` driver will set the default `response_handler` to `Jenky\Hermes\JsonResponse`
 
 ## Usage
 

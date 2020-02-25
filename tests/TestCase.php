@@ -4,9 +4,9 @@ namespace Jenky\Hermes\Test;
 
 use Jenky\Hermes\Facades\Guzzle;
 use Jenky\Hermes\HermesServiceProvider;
-use Jenky\Hermes\Interceptors\RequestEvent;
-use Jenky\Hermes\Interceptors\ResponseHandler;
 use Jenky\Hermes\JsonResponse;
+use Jenky\Hermes\Middleware\RequestEvent;
+use Jenky\Hermes\Middleware\ResponseHandler;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
