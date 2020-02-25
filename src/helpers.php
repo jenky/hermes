@@ -20,12 +20,11 @@ if (! function_exists('array_merge_recursive_unique')) {
     /**
      * Merges any number of arrays / parameters recursively, using the left array as base, giving priority to the right array. Replacing entries with string keys with values from latter arrays.
      *
+     * @param  array[] $arrays
      * @return array
      */
-    function array_merge_recursive_unique()
+    function array_merge_recursive_unique(...$arrays)
     {
-        $arrays = func_get_args();
-
         if (count($arrays) < 2) {
             if ($arrays === []) {
                 return [];
