@@ -203,8 +203,8 @@ class GuzzleManager implements Hermes
                 'options' => [
                     'response_handler' => JsonResponse::class,
                 ],
-                'interceptors' => [
-                    Interceptors\ResponseHandler::class,
+                'middleware' => [
+                    Middleware\ResponseHandler::class,
                 ],
             ], $config)
         ));
