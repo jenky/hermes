@@ -166,7 +166,7 @@ class FeatureTest extends TestCase
                     'Authorization' => 'Bearer '.$token = Str::random(),
                 ],
             ],
-            'interceptors' => [
+            'middleware' => [
                 function (callable $handler) use ($apiKey) {
                     return function (RequestInterface $request, array $options) use ($handler, $apiKey) {
                         $request = $request->withHeader('X-Api-Key', $apiKey);

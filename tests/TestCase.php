@@ -56,7 +56,7 @@ class TestCase extends BaseTestCase
             'with' => [
                 //
             ],
-            'interceptors' => [
+            'middleware' => [
                 RequestEvent::class,
                 ResponseHandler::class,
             ],
