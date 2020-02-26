@@ -7,7 +7,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
 
-class JsonResponse extends Response implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
+class JsonResponse extends Response implements Transformable, ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {
     use Concerns\InteractsWithResponse;
 
@@ -16,7 +16,7 @@ class JsonResponse extends Response implements ArrayAccess, Arrayable, Jsonable,
      *
      * @return void
      */
-    protected function transform()
+    public function transform()
     {
         $this->data = json_decode(
             $this->getBody()->__toString(), true

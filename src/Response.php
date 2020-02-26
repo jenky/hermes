@@ -28,19 +28,11 @@ class Response extends GuzzleResponse implements HttpResponseHandler
             $response->getReasonPhrase()
         );
 
-        $handler->transform();
+        if ($handler instanceof Transformable) {
+            $handler->transform();
+        }
 
         return $handler;
-    }
-
-    /**
-     * Transform the response body to native type.
-     *
-     * @return void
-     */
-    protected function transform()
-    {
-        //
     }
 
     /**
