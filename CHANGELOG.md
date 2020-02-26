@@ -23,6 +23,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Changed
 - Use splat operator for `array_merge_recursive_unique` instead of `func_get_args()`
+- Use `Jenky\Hermes\Transformable` interface for response handler that needs to transform response body to native type
 
 ## [1.1.1](https://github.com/jenky/hermes/compare/1.1.0...1.1.1) - 2020-02-25
 
