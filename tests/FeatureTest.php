@@ -3,6 +3,7 @@
 namespace Jenky\Hermes\Test;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Event;
@@ -105,6 +106,15 @@ class FeatureTest extends TestCase
         $this->assertEquals('bar', $response->get('headers.X-Foo'));
     }
 
+    public function test_exception()
+    {
+        $this->expectException(GuzzleException::class);
+
+        $this->httpClient()->get('https://httpbin.org/status/422', [
+            'http_errors' => true,
+        ]);
+    }
+
     public function test_response_handler()
     {
         $response = $this->httpClient()->get('xml', [
@@ -125,6 +135,7 @@ class FeatureTest extends TestCase
         $response = guzzle('googlenews')->get('news/rss');
 
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertNotEmpty($response->body());
         $this->assertInstanceOf(SimpleXMLElement::class, $response->toXml());
     }
 
