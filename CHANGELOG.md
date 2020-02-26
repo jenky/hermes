@@ -18,6 +18,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+### Added
+- Add some syntax sugar methods to interact with HTTP response message
+
 ### Changed
 - Use splat operator for `array_merge_recursive_unique` instead of `func_get_args()`
 
