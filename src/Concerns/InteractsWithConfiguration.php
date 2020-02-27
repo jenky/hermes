@@ -143,7 +143,7 @@ trait InteractsWithConfiguration
         $name = is_numeric($key) ? '' : $key;
 
         if (is_callable($value)) {
-            return [$value, $name];
+            return [$value(), $name];
         }
 
         [$class, $arguments] = $this->parseClassAndArguments($key, $value);

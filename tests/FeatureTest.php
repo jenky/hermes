@@ -5,7 +5,9 @@ namespace Jenky\Hermes\Test;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Jenky\Hermes\Contracts\Hermes;
@@ -213,6 +215,24 @@ class FeatureTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertJson((string) $response->getBody());
         $this->assertNotEmpty($response->toArray());
+    }
+
+    public function test_lazy_evaluate_middleware()
+    {
+        Event::fake();
+
+        $response = $this->httpClient([
+            'interceptors' => [
+                function () {
+                    return Middleware::log(logs(), new MessageFormatter);
+                },
+            ],
+        ])->get('uuid');
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertNotNull($response->uuid);
+
+        Event::assertDispatched(MessageLogged::class);
     }
 }
 
