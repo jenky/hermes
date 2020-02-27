@@ -28,8 +28,8 @@ class Response extends GuzzleResponse implements HttpResponseHandler
             $response->getReasonPhrase()
         );
 
-        if ($handler instanceof Transformable) {
-            $handler->transform();
+        if ($handler instanceof Parsable) {
+            $handler->parse();
         }
 
         return $handler;
