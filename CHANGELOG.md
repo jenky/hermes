@@ -29,6 +29,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed
 - Fixed merges config recursively
+- Fix callable middleware
 
 ### Changed
 - `ResponseHandler` interceptor constructor now accepts class name instead of `ResponseHandlerInterface` instance
