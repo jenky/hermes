@@ -106,6 +106,21 @@ Configure guzzle [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-m
 
 > The package ships with 2 interceptors. You can read about the interceptors in the [middleware](#middleware) section.
 
+**Lazy evaluation**
+
+If your middleware use Laravel service container binding implementations such as config, session driver, logger inside the `hermes` config file, you'll need to create your middleware in a `Closure`. This is because those implementations are not yet bound to the container when the `hermes` config is loaded.
+
+``` php
+'interceptors' => [
+    // This won't work
+    GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter),
+
+    // This should work
+    function () {
+        return GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter);
+    },
+],
+```
 
 ### Customizing the guzzle handler stack
 
