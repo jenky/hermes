@@ -27,6 +27,6 @@ class LazyEvaluation
      */
     public function __invoke()
     {
-        return $this->callable;
+        return $this->callable->__invoke();
     }
 }
