@@ -16,10 +16,22 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
+## [1.2.0](https://github.com/jenky/hermes/compare/1.1.1...1.2.0) - 2020-02-28
+
+### Added
+- Add some syntax sugar methods to interact with HTTP response message
+- Lazy evaluation to deal with config dependencies
+
+### Changed
+- Rename `array_merge_recursive_unique` to `array_merge_recursive_distinct` and move it to `functions.php` file with namespace
+- Use splat operator for `array_merge_recursive_distinct` instead of `func_get_args()`
+- Use `Jenky\Hermes\Parsable` interface for response handler that needs to parse response body to native type
+
 ## [1.1.1](https://github.com/jenky/hermes/compare/1.1.0...1.1.1) - 2020-02-25
 
 ### Fixed
 - Fixed merges config recursively
+- Fix callable middleware
 
 ### Changed
 - `ResponseHandler` interceptor constructor now accepts class name instead of `ResponseHandlerInterface` instance

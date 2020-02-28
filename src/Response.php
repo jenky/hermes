@@ -4,12 +4,13 @@ namespace Jenky\Hermes;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Illuminate\Support\Traits\Macroable;
+use Jenky\Hermes\Concerns\InteractsWithMessage;
 use Jenky\Hermes\Contracts\HttpResponseHandler;
 use Psr\Http\Message\ResponseInterface;
 
 class Response extends GuzzleResponse implements HttpResponseHandler
 {
-    use Macroable;
+    use InteractsWithMessage, Macroable;
 
     /**
      * Create new response handler instance.
@@ -27,37 +28,11 @@ class Response extends GuzzleResponse implements HttpResponseHandler
             $response->getReasonPhrase()
         );
 
-        $handler->transform();
-
-        return $handler;
-    }
-
-    /**
-     * Transform the response body to native type.
-     *
-     * @return void
-     */
-    protected function transform()
-    {
-        //
-    }
-
-    /**
-     * Retrieve a header from the request.
-     *
-     * @param  string|null  $key
-     * @param  string|array|null  $default
-     * @return string|array|null
-     */
-    public function header($header = null, $default = null)
-    {
-        if ($header) {
-            return $this->getHeader($header)[0] ?? $default;
+        if ($handler instanceof Parsable) {
+            $handler->parse();
         }
 
-        return array_map(function ($values) {
-            return $values[0] ?? null;
-        }, $this->getHeaders());
+        return $handler;
     }
 
     /**

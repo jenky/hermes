@@ -3,8 +3,11 @@
 namespace Jenky\Hermes\Test;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Jenky\Hermes\Contracts\Hermes;
@@ -13,6 +16,7 @@ use Jenky\Hermes\Interceptors\ResponseHandler;
 use Jenky\Hermes\JsonResponse;
 use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
+
 use SimpleXMLElement;
 
 class FeatureTest extends TestCase
@@ -28,7 +32,7 @@ class FeatureTest extends TestCase
 
         $this->app[Hermes::class]->extend('rss', function ($app, array $config) {
             return new Client($this->makeClientOptions(
-                array_merge_recursive_unique($config, [
+                \Jenky\Hermes\array_merge_recursive_distinct($config, [
                     'options' => [
                         'response_handler' => XmlResponse::class,
                     ],
@@ -78,6 +82,18 @@ class FeatureTest extends TestCase
             'driver' => 'custom',
             'via' => CreateCustomDriver::class,
         ]);
+
+        $app['config']->set('hermes.channels.lazy', [
+            'driver' => 'json',
+            'options' => [
+                'base_uri' => 'https://httpbin.org',
+            ],
+            'interceptors' => [
+                \Jenky\Hermes\lazy(function () {
+                    return Middleware::log(logs(), new MessageFormatter);
+                }),
+            ],
+        ]);
     }
 
     public function test_client_is_instance_of_guzzle()
@@ -105,6 +121,15 @@ class FeatureTest extends TestCase
         $this->assertEquals('bar', $response->get('headers.X-Foo'));
     }
 
+    public function test_exception()
+    {
+        $this->expectException(GuzzleException::class);
+
+        $this->httpClient()->get('https://httpbin.org/status/422', [
+            'http_errors' => true,
+        ]);
+    }
+
     public function test_response_handler()
     {
         $response = $this->httpClient()->get('xml', [
@@ -125,6 +150,7 @@ class FeatureTest extends TestCase
         $response = guzzle('googlenews')->get('news/rss');
 
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertNotEmpty($response->body());
         $this->assertInstanceOf(SimpleXMLElement::class, $response->toXml());
     }
 
@@ -202,6 +228,18 @@ class FeatureTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertJson((string) $response->getBody());
         $this->assertNotEmpty($response->toArray());
+    }
+
+    public function test_lazy_evaluate_middleware()
+    {
+        Event::fake();
+
+        $response = guzzle('lazy')->get('uuid');
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertNotNull($response->uuid);
+
+        Event::assertDispatched(MessageLogged::class);
     }
 }
 
