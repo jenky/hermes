@@ -42,7 +42,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Prepare for Laravel 7 and Guzzle 7.
 
 ### Changed
-- Mutable client by passing `$options` as second parameter to `channel()` method.
+- Mutable client by passing `$options` as second parameter to `guzzle()` helper or `channel()` method.
 
 ## [1.0.2](https://github.com/jenky/hermes/compare/1.0.1...1.0.2) - 2020-02-13
 
