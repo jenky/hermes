@@ -116,7 +116,9 @@ If your middleware use Laravel service container binding implementations such as
     GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter),
 
     // This should work
-    Jenky\Hermes\lazy(GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter)),
+    Jenky\Hermes\lazy(function () {
+        return GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter);
+    }),
 ],
 ```
 

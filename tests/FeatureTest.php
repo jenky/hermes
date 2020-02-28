@@ -89,7 +89,9 @@ class FeatureTest extends TestCase
                 'base_uri' => 'https://httpbin.org',
             ],
             'interceptors' => [
-                \Jenky\Hermes\lazy(Middleware::log(logs(), new MessageFormatter)),
+                \Jenky\Hermes\lazy(function () {
+                    return Middleware::log(logs(), new MessageFormatter);
+                }),
             ],
         ]);
     }
