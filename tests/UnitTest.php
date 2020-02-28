@@ -15,6 +15,9 @@ class UnitTest extends TestCase
 
     public function test_array_merge_recursive_distinct()
     {
+        $this->assertIsArray($empty = array_merge_recursive_distinct());
+        $this->assertEmpty($empty);
+
         $merged1 = array_merge_recursive_distinct([]);
 
         $this->assertIsArray($merged1);
