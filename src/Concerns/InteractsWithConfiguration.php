@@ -144,7 +144,8 @@ trait InteractsWithConfiguration
         $name = is_numeric($key) ? '' : $key;
 
         if (is_callable($value)) {
-            $value = $this->isLazyEvaluable($value) ? $this->app->call($value) : $value;
+            // $value = $this->isLazyEvaluable($value) ? $this->app->call($value) : $value;
+            $value = $this->isLazyEvaluable($value) ? $value() : $value;
 
             return [$value, $name];
         }
