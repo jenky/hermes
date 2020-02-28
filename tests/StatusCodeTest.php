@@ -2,8 +2,6 @@
 
 namespace Jenky\Hermes\Test;
 
-use GuzzleHttp\Exception\GuzzleException;
-
 class StatusCodeTest extends TestCase
 {
     /* public function test_1xx_status_code()

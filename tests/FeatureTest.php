@@ -16,6 +16,7 @@ use Jenky\Hermes\Interceptors\ResponseHandler;
 use Jenky\Hermes\JsonResponse;
 use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
+
 use SimpleXMLElement;
 
 class FeatureTest extends TestCase
@@ -31,7 +32,7 @@ class FeatureTest extends TestCase
 
         $this->app[Hermes::class]->extend('rss', function ($app, array $config) {
             return new Client($this->makeClientOptions(
-                array_merge_recursive_unique($config, [
+                \Jenky\Hermes\array_merge_recursive_distinct($config, [
                     'options' => [
                         'response_handler' => XmlResponse::class,
                     ],
@@ -80,6 +81,16 @@ class FeatureTest extends TestCase
         $app['config']->set('hermes.channels.custom', [
             'driver' => 'custom',
             'via' => CreateCustomDriver::class,
+        ]);
+
+        $app['config']->set('hermes.channels.lazy', [
+            'driver' => 'json',
+            'options' => [
+                'base_uri' => 'https://httpbin.org',
+            ],
+            'interceptors' => [
+                \Jenky\Hermes\lazy(Middleware::log(logs(), new MessageFormatter)),
+            ],
         ]);
     }
 
@@ -221,13 +232,7 @@ class FeatureTest extends TestCase
     {
         Event::fake();
 
-        $response = $this->httpClient([
-            'interceptors' => [
-                function () {
-                    return Middleware::log(logs(), new MessageFormatter);
-                },
-            ],
-        ])->get('uuid');
+        $response = guzzle('lazy')->get('uuid');
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertNotNull($response->uuid);

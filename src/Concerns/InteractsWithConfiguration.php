@@ -4,6 +4,7 @@ namespace Jenky\Hermes\Concerns;
 
 use GuzzleHttp\HandlerStack;
 use Illuminate\Support\Str;
+use Jenky\Hermes\LazyEvaluation;
 
 trait InteractsWithConfiguration
 {
@@ -143,11 +144,23 @@ trait InteractsWithConfiguration
         $name = is_numeric($key) ? '' : $key;
 
         if (is_callable($value)) {
-            return [$value(), $name];
+            $value = $this->isLazyEvaluable($value) ? $this->app->call($value) : $value;
+
+            return [$value, $name];
         }
 
         [$class, $arguments] = $this->parseClassAndArguments($key, $value);
 
         return [$this->app->make($class, $arguments), $class];
+    }
+
+    /**
+     * Determine if the callable is lazy evaluated.
+     *
+     * @return bool
+     */
+    protected function isLazyEvaluable(callable $callable)
+    {
+        return $callable instanceof LazyEvaluation;
     }
 }

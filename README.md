@@ -108,7 +108,7 @@ Configure guzzle [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-m
 
 **Lazy evaluation**
 
-If your middleware use Laravel service container binding implementations such as config, session driver, logger inside the `hermes` config file, you'll need to create your middleware in a `Closure`. This is because those implementations are not yet bound to the container when the `hermes` config is loaded.
+If your middleware use Laravel service container binding implementations such as config, session driver, logger inside the `hermes` config file, you'll need to create your middleware using `Jenky\Hermes\lazy()` function. This is because those implementations are not yet bound to the container when the `hermes` config is loaded. The `lazy` function will wrap your middleware inside a `Closure` then invokes when parsing the configuration.
 
 ``` php
 'interceptors' => [
@@ -116,9 +116,7 @@ If your middleware use Laravel service container binding implementations such as
     GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter),
 
     // This should work
-    function () {
-        return GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter);
-    },
+    Jenky\Hermes\lazy(GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter)),
 ],
 ```
 
