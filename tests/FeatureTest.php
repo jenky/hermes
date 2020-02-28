@@ -16,7 +16,6 @@ use Jenky\Hermes\Interceptors\ResponseHandler;
 use Jenky\Hermes\JsonResponse;
 use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
-
 use SimpleXMLElement;
 
 class FeatureTest extends TestCase
@@ -94,11 +93,6 @@ class FeatureTest extends TestCase
                 }),
             ],
         ]);
-    }
-
-    public function test_client_is_instance_of_guzzle()
-    {
-        $this->assertInstanceOf(Client::class, guzzle()->channel());
     }
 
     public function test_request_event_fired()
