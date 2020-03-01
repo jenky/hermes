@@ -125,7 +125,7 @@ trait InteractsWithConfiguration
     {
         $middleware = [];
 
-        foreach ($config['middleware'] ?? $config['interceptors'] ?? [] as $key => $value) {
+        foreach (array_merge($config['middleware'] ?? [], $config['interceptors'] ?? []) as $key => $value) {
             $middleware[] = $this->parseMiddleware($key, $value);
         }
 
