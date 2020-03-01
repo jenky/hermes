@@ -6,6 +6,7 @@
         "laravel",
         "guzzle",
         "http",
+        "http client",
         "http message",
         "PSR http",
         "psr-7",
@@ -22,10 +23,10 @@
         }
     ],
     "require": {
-        "php" : "^7.1.3",
-        "illuminate/container": "^5.7|^6.0|^7.0",
+        "php": "^7.1.3",
+        "guzzlehttp/guzzle": "^6.3|^7.0",
         "illuminate/config": "^5.7|^6.0|^7.0",
-        "guzzlehttp/guzzle": "^6.3|^7.0"
+        "illuminate/container": "^5.7|^6.0|^7.0"
     },
     "require-dev": {
         "orchestra/testbench": "^3.5|^4.0",
@@ -37,6 +38,7 @@
             "Jenky\\Hermes\\": "src"
         },
         "files": [
+            "src/functions.php",
             "src/helpers.php"
         ]
     },
