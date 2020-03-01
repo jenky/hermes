@@ -58,7 +58,7 @@ class HermesServiceProvider extends ServiceProvider implements DeferrableProvide
     public function provides()
     {
         return [
-            Hermes::class
-        ]
+            Hermes::class,
+        ];
     }
 }
