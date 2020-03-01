@@ -16,6 +16,15 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
+## [Unreleased]
+
+### Changed
+
+- Defer service provider.
+
+### Removed
+- Drop supports for Laravel 5.7.
+
 ## [1.2.0](https://github.com/jenky/hermes/compare/1.1.1...1.2.0) - 2020-02-28
 
 ### Added
