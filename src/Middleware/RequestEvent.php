@@ -70,13 +70,9 @@ class RequestEvent
     protected function handleFailure(RequestInterface $request, array $options)
     {
         return function ($reason) use ($request, $options) {
-            $response = null;
-
-            if ($reason instanceof RequestException) {
-                if ($reason->hasResponse()) {
-                    $response = $reason->getResponse();
-                }
-            }
+            $response = $reason instanceof RequestException
+                ? $reason->getResponse()
+                : null;
 
             $this->fireEvent($request, $response, $options);
 
