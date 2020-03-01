@@ -2,9 +2,9 @@
 
 namespace Jenky\Hermes\Test;
 
-use function Jenky\Hermes\array_merge_recursive_distinct;
-
 use GuzzleHttp\ClientInterface;
+
+use function Jenky\Hermes\array_merge_recursive_distinct;
 
 class UnitTest extends TestCase
 {
