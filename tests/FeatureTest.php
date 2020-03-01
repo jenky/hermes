@@ -16,7 +16,6 @@ use Jenky\Hermes\Interceptors\ResponseHandler;
 use Jenky\Hermes\JsonResponse;
 use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
-
 use SimpleXMLElement;
 
 class FeatureTest extends TestCase
