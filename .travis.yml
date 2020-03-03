@@ -26,8 +26,6 @@ matrix:
       env: LARAVEL=^6.0
     - php: 7.1
       env: LARAVEL=^7.0
-  allow_failures:
-    - env: LARAVEL=^7.0
 
 before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist

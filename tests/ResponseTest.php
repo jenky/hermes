@@ -2,7 +2,6 @@
 
 namespace Jenky\Hermes\Test;
 
-use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Http\JsonResponse;
 use Jenky\Hermes\Response;
 
@@ -23,7 +22,7 @@ class ResponseTest extends TestCase
         $response['exception'] = false;
         $this->assertFalse($response['exception']);
 
-        TestResponse::fromBaseResponse(
+        $this->createTestResponse(
             new JsonResponse($response->toArray(), $response->getStatusCode(), $response->header())
         )
             ->assertHeader('Content-Type', 'application/json')

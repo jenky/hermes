@@ -122,6 +122,8 @@ If your middleware use Laravel service container binding implementations such as
 ],
 ```
 
+> An alternative way is [customizing the guzzle handler stack](#configure-the-guzzle-handler).
+
 ### Customizing the guzzle handler stack
 
 Sometimes you may need complete control over how guzzle's [HandleStack](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#handlerstack) is configured for an existing channel. For example, you may want to add, remove or unshift a middleware for a given channel's handler stack.
