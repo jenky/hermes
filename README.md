@@ -122,7 +122,7 @@ If your middleware use Laravel service container binding implementations such as
 ],
 ```
 
-> An alternative way is [customizing the guzzle handler stack](#configure-the-guzzle-handler) in the next section
+> An alternative way is [customizing the guzzle handler stack](#configure-the-guzzle-handler).
 
 ### Customizing the guzzle handler stack
 
