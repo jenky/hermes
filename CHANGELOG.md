@@ -16,6 +16,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
+## [1.2.1](https://github.com/jenky/hermes/compare/1.2.0...1.2.1) - 2020-03-03
+
+### Fixed
+- Fix test cases for Laravel 7.
+
 ## [1.2.0](https://github.com/jenky/hermes/compare/1.1.1...1.2.0) - 2020-02-28
 
 ### Added
