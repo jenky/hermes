@@ -1,7 +1,7 @@
 # Hermes
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
-[![Build Status][ico-travis]][link-travis]
+[![Test Status][ico-gh-tests]][link-gh-tests]
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Software License][ico-license]](LICENSE.md)
@@ -262,12 +262,13 @@ If you discover any security related issues, please email contact@lynh.me instea
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/jenky/hermes.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/com/jenky/hermes/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/hermes.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/hermes.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/jenky/hermes.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/jenky/hermes.svg?style=flat
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat
+[ico-travis]: https://img.shields.io/travis/com/jenky/hermes/master.svg?style=flat
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/hermes.svg?style=flat
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/hermes.svg?style=flat
+[ico-downloads]: https://img.shields.io/packagist/dt/jenky/hermes.svg?style=flat
+[ico-gh-tests]: https://github.com/jenky/hermes/workflows/Tests/badge.svg
 
 [link-packagist]: https://packagist.org/packages/jenky/hermes
 [link-travis]: https://travis-ci.com/jenky/hermes
@@ -276,3 +277,4 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-downloads]: https://packagist.org/packages/jenky/hermes
 [link-author]: https://github.com/jenky
 [link-contributors]: ../../contributors
+[link-gh-tests]: https://github.com/jenky/hermes/actions
