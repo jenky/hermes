@@ -22,11 +22,7 @@ function lazy(callable $callable)
 function array_merge_recursive_distinct(...$arrays)
 {
     if (count($arrays) < 2) {
-        if ($arrays === []) {
-            return [];
-        } else {
-            return $arrays[0];
-        }
+        return empty($arrays) ? [] : $arrays[0];
     }
 
     $merged = array_shift($arrays);
