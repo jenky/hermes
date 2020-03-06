@@ -16,6 +16,7 @@ The package provides a nice and easy wrapper around Guzzle for use in your Larav
     - [Configure the guzzle handler](#configure-the-guzzle-handler)
     - [Configure the guzzle middleware / interceptors](#configure-the-guzzle-middleware--interceptors)
     - [Customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack)
+      - [Tap class parameters](#tap-class-parameters)
   - [Middleware](#middleware)
     - [`RequestEvent`](#requestevent)
     - [`ResponseHandler`](#responsehandler)
@@ -127,7 +128,7 @@ To get started, define a `tap` array on the channel's configuration. The `tap` a
 ``` php
 'default' => [
     'tap' => [
-        App\Http\CustomizeHandlerStack::class,
+        App\Http\Client\CustomizeHandlerStack::class,
     ],
 ],
 ```
@@ -137,7 +138,7 @@ Once you have configured the `tap` option on your channel, you're ready to defin
 ``` php
 <?php
 
-namespace App\Http;
+namespace App\Http\Client;
 
 use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\HandlerStack;
@@ -161,6 +162,67 @@ class CustomizeHandlerStack
 ```
 
 > All of your "tap" classes are resolved by the service container, so any constructor dependencies they require will automatically be injected.
+
+#### Tap class parameters
+
+Tap class can also receive additional parameters. For example, if your handler needs to log the Guzzle request and response by using a specific Laravel logger channel, you could create a `LogMiddleware` class that receives a channel name as an additional argument.
+
+Additional parameters will be passed to the class after the `$stack` argument:
+
+``` php
+<?php
+
+namespace App\Support;
+
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
+use Illuminate\Log\LogManager;
+
+class LogMiddleware
+{
+    /**
+     * The logger manager instance.
+     *
+     * @var \Illuminate\Log\LogManager
+     */
+    protected $logger;
+
+    /**
+     * Create new log middleware instance.
+     *
+     * @param  \Illuminate\Log\LogManager $logger
+     * @return void
+     */
+    public function __construct(LogManager $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * Customize the given handle stack instance.
+     *
+     * @param  \GuzzleHttp\HandlerStack $stack
+     * @return void
+     */
+    public function __invoke(HandlerStack $stack, ?string $channel = null, string $level = 'debug')
+    {
+        $stack->push(Middleware::log(
+            $this->logger->channel($channel), new MessageFormatter, $level
+        ));
+    }
+}
+```
+
+Tap class parameters may be specified in `hermes` config by separating the class name and parameters with a `:`. Multiple parameters should be delimited by commas:
+
+``` php
+'default' => [
+    'tap' => [
+        App\Http\Client\LogMiddleware::class.':slack',
+    ],
+],
+```
 
 ## Middleware
 
