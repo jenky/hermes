@@ -16,6 +16,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
+## [1.2.2](https://github.com/jenky/hermes/compare/1.2.1...1.2.2) - 2020-03-06
+
+### Deprecated
+- Deprecated lazy evaluation.
+
+### Fixed
+- Fix error with `tap` when first parameter always is an empty string when not passed.
+
 ## [1.2.1](https://github.com/jenky/hermes/compare/1.2.0...1.2.1) - 2020-03-03
 
 ### Fixed
