@@ -81,9 +81,8 @@ trait InteractsWithConfiguration
     {
         foreach ($config['tap'] ?? [] as $tap) {
             [$class, $arguments] = $this->parseTap($tap);
-            $parameters = $arguments ? explode(',', $arguments) : [];
 
-            $this->app->make($class)->__invoke($handler, ...$parameters);
+            $this->app->make($class)->__invoke($handler, ...explode(',', $arguments));
         }
 
         return $handler;
@@ -145,7 +144,7 @@ trait InteractsWithConfiguration
         $name = is_numeric($key) ? '' : $key;
 
         if (is_callable($value)) {
-            // Todo: remove in 1.3
+            // $value = $this->isLazyEvaluable($value) ? $this->app->call($value) : $value;
             $value = $this->isLazyEvaluable($value) ? $value() : $value;
 
             return [$value, $name];
