@@ -16,7 +16,7 @@ The package provides a nice and easy wrapper around Guzzle for use in your Larav
     - [Configure the guzzle handler](#configure-the-guzzle-handler)
     - [Configure the guzzle middleware / interceptors](#configure-the-guzzle-middleware--interceptors)
     - [Customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack)
-      - [Tap class parameters](#tap-class-parameters)
+      - ["Tap" class parameters](#%22tap%22-class-parameters)
   - [Middleware](#middleware)
     - [`RequestEvent`](#requestevent)
     - [`ResponseHandler`](#responsehandler)
@@ -163,9 +163,9 @@ class CustomizeHandlerStack
 
 > All of your "tap" classes are resolved by the service container, so any constructor dependencies they require will automatically be injected.
 
-#### Tap class parameters
+#### "Tap" class parameters
 
-Tap class can also receive additional parameters. For example, if your handler needs to log the Guzzle request and response by using a specific Laravel logger channel, you could create a `LogMiddleware` class that receives a channel name as an additional argument.
+"Tap" class can also receive additional parameters. For example, if your handler needs to log the Guzzle request and response by using a specific Laravel logger channel, you could create a `LogMiddleware` class that receives a channel name as an additional argument.
 
 Additional parameters will be passed to the class after the `$stack` argument:
 
@@ -214,7 +214,7 @@ class LogMiddleware
 }
 ```
 
-Tap class parameters may be specified in `hermes` config by separating the class name and parameters with a `:`. Multiple parameters should be delimited by commas:
+"Tap" class parameters may be specified in `hermes` config by separating the class name and parameters with a `:`. Multiple parameters should be delimited by commas:
 
 ``` php
 'default' => [
