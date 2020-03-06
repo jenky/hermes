@@ -104,25 +104,19 @@ Configure guzzle [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-m
 ],
 ```
 
-> The package ships with 2 interceptors. You can read about the interceptors in the [middleware](#middleware) section.
+You can read about the interceptors in the [middleware](#middleware) section.
 
-**Lazy evaluation**
 
-If your middleware use Laravel service container binding implementations such as config, session driver, logger inside the `hermes` config file, you'll need to create your middleware using `Jenky\Hermes\lazy()` function. This is because those implementations are not yet bound to the container when the `hermes` config is loaded. It's best to wrap your middleware inside a `Closure` with `lazy` function so that it will only be evaluated when if it's required.
+> Do no attempt to resolve container binding implementations such as config, session driver, logger inside the `hermes` config file. This is because those implementations are not yet bound to the container when the `hermes` config is loaded.
 
 ``` php
 'interceptors' => [
-    // This won't work
+    // This won't work properly
     GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter),
-
-    // Use this instead
-    Jenky\Hermes\lazy(function () {
-        return GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter);
-    }),
 ],
 ```
 
-> An alternative way is [customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack).
+> Instead of using middleware in config, consider [customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack).
 
 ### Customizing the guzzle handler stack
 
