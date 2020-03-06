@@ -5,6 +5,7 @@ namespace Jenky\Hermes;
 /**
  * Create new lazy evaluation middleware.
  *
+ * @deprecated Will be removed in version 1.3
  * @param  callable $callable
  * @return \Jenky\Hermes\LazyEvaluation
  */
