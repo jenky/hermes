@@ -1,4 +1,4 @@
-name: Run Tests
+name: Tests
 
 on: [push]
 
@@ -11,17 +11,21 @@ jobs:
       fail-fast: true
       matrix:
         php: [7.1, 7.2, 7.3, 7.4]
-        laravel: [5.7.*, 5.8.*, 6.*]
+        laravel: [5.7.*, 5.8.*, 6.*, 7.*]
         include:
-            - laravel: 6.*
-              testbench: 4.*
-            - laravel: 5.8.*
-              testbench: 3.8.*
-            - laravel: 5.7.*
-              testbench: 3.7.*
+          - laravel: 7.*
+            testbench: 5.*
+          - laravel: 6.*
+            testbench: 4.*
+          - laravel: 5.8.*
+            testbench: 3.8.*
+          - laravel: 5.7.*
+            testbench: 3.7.*
         exclude:
-            - laravel: 6.*
-              php: 7.1
+          - laravel: 6.*
+            php: 7.1
+          - laravel: 7.*
+            php: 7.1
 
     name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
 
@@ -45,6 +49,6 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --prefer-dist --no-interaction --no-suggest
-          
+
       - name: Execute tests
         run: vendor/bin/phpunit

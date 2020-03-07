@@ -82,7 +82,9 @@ trait InteractsWithConfiguration
         foreach ($config['tap'] ?? [] as $tap) {
             [$class, $arguments] = $this->parseTap($tap);
 
-            $this->app->make($class)->__invoke($handler, ...explode(',', $arguments));
+            $this->app->make($class)->__invoke(
+                $handler, ...array_filter(explode(',', $arguments))
+            );
         }
 
         return $handler;

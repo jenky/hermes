@@ -2,6 +2,9 @@
 
 namespace Jenky\Hermes;
 
+/**
+ * @deprecated 1.2.2 Will be removed in version 1.3
+ */
 class LazyEvaluation
 {
     /**

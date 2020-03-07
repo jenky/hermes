@@ -5,6 +5,7 @@ namespace Jenky\Hermes;
 /**
  * Create new lazy evaluation middleware.
  *
+ * @deprecated Will be removed in version 1.3
  * @param  callable $callable
  * @return \Jenky\Hermes\LazyEvaluation
  */
@@ -22,11 +23,7 @@ function lazy(callable $callable)
 function array_merge_recursive_distinct(...$arrays)
 {
     if (count($arrays) < 2) {
-        if ($arrays === []) {
-            return [];
-        } else {
-            return $arrays[0];
-        }
+        return empty($arrays) ? [] : $arrays[0];
     }
 
     $merged = array_shift($arrays);

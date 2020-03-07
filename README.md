@@ -1,7 +1,7 @@
 # Hermes
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
-[![Build Status][ico-travis]][link-travis]
+[![Test Status][ico-gh-tests]][link-gh-tests]
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Software License][ico-license]](LICENSE.md)
@@ -16,6 +16,7 @@ The package provides a nice and easy wrapper around Guzzle for use in your Larav
     - [Configure the guzzle handler](#configure-the-guzzle-handler)
     - [Configure the guzzle middleware](#configure-the-guzzle-middleware)
     - [Customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack)
+      - ["Tap" class parameters](#%22tap%22-class-parameters)
   - [Middleware](#middleware)
     - [`RequestEvent`](#requestevent)
     - [`ResponseHandler`](#responsehandler)
@@ -104,23 +105,18 @@ Configure guzzle [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-m
 ],
 ```
 
-> The package ships with 2 middleware. You can read about the middleware in the [middleware](#middleware) section.
+You can read about the interceptors in the [middleware](#middleware) section.
 
-**Lazy evaluation**
-
-If your middleware use Laravel service container binding implementations such as config, session driver, logger inside the `hermes` config file, you'll need to create your middleware using `Jenky\Hermes\lazy()` function. This is because those implementations are not yet bound to the container when the `hermes` config is loaded. It's best to wrap your middleware inside a `Closure` with `lazy` function so that it will only be evaluated when if it's required.
+> Do no attempt to resolve container binding implementations such as config, session driver, logger inside the `hermes` config file. This is because those implementations are not yet bound to the container when the `hermes` config is loaded.
 
 ``` php
 'interceptors' => [
-    // This won't work
+    // This won't work properly
     GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter),
-
-    // Use this instead
-    Jenky\Hermes\lazy(function () {
-        return GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter);
-    }),
 ],
 ```
+
+> Instead of using middleware in config, consider [customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack).
 
 ### Customizing the guzzle handler stack
 
@@ -131,7 +127,7 @@ To get started, define a `tap` array on the channel's configuration. The `tap` a
 ``` php
 'default' => [
     'tap' => [
-        App\Http\CustomizeHandlerStack::class,
+        App\Http\Client\CustomizeHandlerStack::class,
     ],
 ],
 ```
@@ -141,7 +137,7 @@ Once you have configured the `tap` option on your channel, you're ready to defin
 ``` php
 <?php
 
-namespace App\Http;
+namespace App\Http\Client;
 
 use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\HandlerStack;
@@ -165,6 +161,67 @@ class CustomizeHandlerStack
 ```
 
 > All of your "tap" classes are resolved by the service container, so any constructor dependencies they require will automatically be injected.
+
+#### "Tap" class parameters
+
+"Tap" class can also receive additional parameters. For example, if your handler needs to log the Guzzle request and response by using a specific Laravel logger channel, you could create a `LogMiddleware` class that receives a channel name as an additional argument.
+
+Additional parameters will be passed to the class after the `$stack` argument:
+
+``` php
+<?php
+
+namespace App\Support;
+
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
+use Illuminate\Log\LogManager;
+
+class LogMiddleware
+{
+    /**
+     * The logger manager instance.
+     *
+     * @var \Illuminate\Log\LogManager
+     */
+    protected $logger;
+
+    /**
+     * Create new log middleware instance.
+     *
+     * @param  \Illuminate\Log\LogManager $logger
+     * @return void
+     */
+    public function __construct(LogManager $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * Customize the given handle stack instance.
+     *
+     * @param  \GuzzleHttp\HandlerStack $stack
+     * @return void
+     */
+    public function __invoke(HandlerStack $stack, ?string $channel = null, string $level = 'debug')
+    {
+        $stack->push(Middleware::log(
+            $this->logger->channel($channel), new MessageFormatter, $level
+        ));
+    }
+}
+```
+
+"Tap" class parameters may be specified in `hermes` config by separating the class name and parameters with a `:`. Multiple parameters should be delimited by commas:
+
+``` php
+'default' => [
+    'tap' => [
+        App\Http\Client\LogMiddleware::class.':slack',
+    ],
+],
+```
 
 ## Middleware
 
@@ -263,12 +320,13 @@ If you discover any security related issues, please email contact@lynh.me instea
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/jenky/hermes.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/com/jenky/hermes/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/hermes.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/hermes.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/jenky/hermes.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/jenky/hermes.svg?style=flat
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat
+[ico-travis]: https://img.shields.io/travis/com/jenky/hermes/master.svg?style=flat
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/hermes.svg?style=flat
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/hermes.svg?style=flat
+[ico-downloads]: https://img.shields.io/packagist/dt/jenky/hermes.svg?style=flat
+[ico-gh-tests]: https://github.com/jenky/hermes/workflows/Tests/badge.svg
 
 [link-packagist]: https://packagist.org/packages/jenky/hermes
 [link-travis]: https://travis-ci.com/jenky/hermes
@@ -277,3 +335,4 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-downloads]: https://packagist.org/packages/jenky/hermes
 [link-author]: https://github.com/jenky
 [link-contributors]: ../../contributors
+[link-gh-tests]: https://github.com/jenky/hermes/actions
