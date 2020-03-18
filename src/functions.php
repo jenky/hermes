@@ -3,18 +3,6 @@
 namespace Jenky\Hermes;
 
 /**
- * Create new lazy evaluation middleware.
- *
- * @deprecated Will be removed in version 1.3
- * @param  callable $callable
- * @return \Jenky\Hermes\LazyEvaluation
- */
-function lazy(callable $callable)
-{
-    return new LazyEvaluation($callable);
-}
-
-/**
  * Merges any number of arrays / parameters recursively, using the left array as base, giving priority to the right array. Replacing entries with string keys with values from latter arrays.
  *
  * @param  array[] $arrays
