@@ -106,18 +106,18 @@ Configure guzzle [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-m
 ],
 ```
 
-You can read about the interceptors in the [middleware](#middleware) section.
+You can read about the middleware in the [middleware](#middleware) section.
 
 > Do no attempt to resolve container binding implementations such as config, session driver, logger inside the `hermes` config file. This is because those implementations are not yet bound to the container when the `hermes` config is loaded.
 
 ``` php
-'interceptors' => [
+'middleware' => [
     // This won't work properly
     GuzzleHttp\Middleware::log(logs(), new GuzzleHttp\MessageFormatter),
 ],
 ```
 
-> Instead of using middleware in config, consider [customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack).
+> Instead of using middleware in config, consider [customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack) if you needs container binding implementations.
 
 ### Customizing the guzzle handler stack
 
