@@ -3,6 +3,7 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Test Status][ico-gh-tests]][link-gh-tests]
 [![Quality Score][ico-code-quality]][link-code-quality]
+[![Codecov][ico-codecov]][link-codecov]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Software License][ico-license]](LICENSE.md)
 
@@ -327,6 +328,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/hermes.svg?style=flat
 [ico-downloads]: https://img.shields.io/packagist/dt/jenky/hermes.svg?style=flat
 [ico-gh-tests]: https://github.com/jenky/hermes/workflows/Tests/badge.svg
+[ico-codecov]: https://codecov.io/gh/jenky/hermes/branch/master/graph/badge.svg
 
 [link-packagist]: https://packagist.org/packages/jenky/hermes
 [link-travis]: https://travis-ci.com/jenky/hermes
@@ -336,3 +338,4 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-author]: https://github.com/jenky
 [link-contributors]: ../../contributors
 [link-gh-tests]: https://github.com/jenky/hermes/actions
+[link-codecov]: https://codecov.io/gh/jenky/hermes
