@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Jenky\Hermes\Contracts\Hermes;
 use Jenky\Hermes\Events\RequestHandled;
+use Jenky\Hermes\Interceptors\RequestEvent;
 use Jenky\Hermes\Interceptors\ResponseHandler;
 use Jenky\Hermes\JsonResponse;
 use Jenky\Hermes\Response;
 use Psr\Http\Message\RequestInterface;
-
 use SimpleXMLElement;
 
 class FeatureTest extends TestCase
@@ -75,6 +75,9 @@ class FeatureTest extends TestCase
             'options' => [
                 'base_uri' => 'https://news.google.com',
                 'http_errors' => false,
+            ],
+            'interceptors' => [
+                RequestEvent::class,
             ],
         ]);
 
@@ -187,7 +190,7 @@ class FeatureTest extends TestCase
                     'Authorization' => 'Bearer '.$token = Str::random(),
                 ],
             ],
-            'interceptors' => [
+            'middleware' => [
                 function (callable $handler) use ($apiKey) {
                     return function (RequestInterface $request, array $options) use ($handler, $apiKey) {
                         $request = $request->withHeader('X-Api-Key', $apiKey);

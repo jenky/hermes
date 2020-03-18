@@ -15,7 +15,7 @@ The package provides a nice and easy wrapper around Guzzle for use in your Larav
     - [Channel configuration](#channel-configuration)
     - [Configure the guzzle option](#configure-the-guzzle-option)
     - [Configure the guzzle handler](#configure-the-guzzle-handler)
-    - [Configure the guzzle middleware / interceptors](#configure-the-guzzle-middleware--interceptors)
+    - [Configure the guzzle middleware](#configure-the-guzzle-middleware)
     - [Customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack)
       - ["Tap" class parameters](#%22tap%22-class-parameters)
   - [Middleware](#middleware)
@@ -94,20 +94,19 @@ An alternative way is set the handler in the [`options`](#configure-the-guzzle-o
 ],
 ```
 
-### Configure the guzzle middleware / interceptors
+### Configure the guzzle middleware
 
 Configure guzzle [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#middleware) within the channel.
 
 ``` php
 'default' => [
-    'interceptors' => [
-        Jenky\Hermes\Interceptor\RequestEvent::class,
+    'middleware' => [
+        Jenky\Hermes\Middleware\RequestEvent::class,
     ],
 ],
 ```
 
 You can read about the interceptors in the [middleware](#middleware) section.
-
 
 > Do no attempt to resolve container binding implementations such as config, session driver, logger inside the `hermes` config file. This is because those implementations are not yet bound to the container when the `hermes` config is loaded.
 
@@ -256,21 +255,24 @@ public $options;
 
 ### `ResponseHandler`
 
-When sending the request, `GuzzleHttp\Psr7\Response` will be used as the default response handler. However you can configure the request options to use your own response handler.
+When sending the request, `GuzzleHttp\Psr7\Response` will be used as the default response handler. However you can configure the request options to use your own response handler. Please note that response handler must be an instance of `Psr\Http\Message\ResponseInterface`
 
 ``` php
 'default' => [
+    'driver' => 'guzzle',
     'options' => [
         'base_uri' => 'https://httpbin.org/',
         // ...
         'response_handler' => Jenky\Hermes\JsonResponse::class,
     ],
-    'interceptors' => [
-        Jenky\Hermes\Interceptors\ResponseHandler::class,
+    'middleware' => [
+        Jenky\Hermes\Middleware\ResponseHandler::class,
         // ...
     ],
 ],
 ```
+
+> `json` driver will automatically use `Jenky\Hermes\Middleware\ResponseHandler` middleware and set the default `response_handler` to `Jenky\Hermes\JsonResponse`
 
 ## Usage
 

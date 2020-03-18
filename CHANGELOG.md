@@ -16,6 +16,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
+## [Unreleased]
+
+### Deprecated
+- Rename `Interceptors` to `Middleware`.
+
 ## [1.2.2](https://github.com/jenky/hermes/compare/1.2.1...1.2.2) - 2020-03-06
 
 ### Deprecated

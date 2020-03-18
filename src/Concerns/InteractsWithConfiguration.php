@@ -63,8 +63,8 @@ trait InteractsWithConfiguration
      */
     protected function prepareHandler(HandlerStack $handler, array $config = [])
     {
-        foreach ($this->interceptors($config) as [$interceptor, $name]) {
-            $handler->push($interceptor, $name);
+        foreach ($this->middleware($config) as [$middleware, $name]) {
+            $handler->push($middleware, $name);
         }
 
         return $this->tap($handler, $config);
@@ -118,20 +118,20 @@ trait InteractsWithConfiguration
     }
 
     /**
-     * Get all interceptors that will be pushed to handle stack instance.
+     * Get all middleware that will be pushed to handle stack instance.
      *
      * @param  array $config
      * @return array
      */
-    public function interceptors(array $config)
+    public function middleware(array $config)
     {
-        $interceptors = [];
+        $middleware = [];
 
-        foreach ($config['interceptors'] ?? [] as $key => $value) {
-            $interceptors[] = $this->parseInterceptor($key, $value);
+        foreach (array_merge($config['middleware'] ?? [], $config['interceptors'] ?? []) as $key => $value) {
+            $middleware[] = $this->parseMiddleware($key, $value);
         }
 
-        return $interceptors;
+        return $middleware;
     }
 
     /**
@@ -141,7 +141,7 @@ trait InteractsWithConfiguration
      * @param  mixed $value
      * @return array
      */
-    protected function parseInterceptor($key, $value)
+    protected function parseMiddleware($key, $value)
     {
         $name = is_numeric($key) ? '' : $key;
 
