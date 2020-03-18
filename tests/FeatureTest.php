@@ -85,18 +85,6 @@ class FeatureTest extends TestCase
             'driver' => 'custom',
             'via' => CreateCustomDriver::class,
         ]);
-
-        $app['config']->set('hermes.channels.lazy', [
-            'driver' => 'json',
-            'options' => [
-                'base_uri' => 'https://httpbin.org',
-            ],
-            'interceptors' => [
-                \Jenky\Hermes\lazy(function () {
-                    return Middleware::log(logs(), new MessageFormatter);
-                }),
-            ],
-        ]);
     }
 
     public function test_request_event_fired()
@@ -226,18 +214,6 @@ class FeatureTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertJson((string) $response->getBody());
         $this->assertNotEmpty($response->toArray());
-    }
-
-    public function test_lazy_evaluate_middleware()
-    {
-        Event::fake();
-
-        $response = guzzle('lazy')->get('uuid');
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertNotNull($response->uuid);
-
-        Event::assertDispatched(MessageLogged::class);
     }
 }
 
