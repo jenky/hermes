@@ -16,6 +16,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
+## [1.3.1](https://github.com/jenky/hermes/compare/1.3.0...1.3.1) - 2020-04-19
+
+### Removed
+- Remove lazy evaluation code.
+
 ## [1.3.0](https://github.com/jenky/hermes/compare/1.2.2...1.3.0) - 2020-04-17
 
 ### Deprecated
