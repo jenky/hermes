@@ -54,7 +54,7 @@ class Response extends GuzzleResponse implements HttpResponseHandler
      */
     public function isError(): bool
     {
-        return ! $this->isSuccessful();
+        return $this->isClientError() || $this->isServerError();
     }
 
     /**
