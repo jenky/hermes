@@ -17,7 +17,7 @@ The package provides a nice and easy wrapper around Guzzle for use in your Larav
     - [Configure the guzzle handler](#configure-the-guzzle-handler)
     - [Configure the guzzle middleware](#configure-the-guzzle-middleware)
     - [Customizing the guzzle handler stack](#customizing-the-guzzle-handler-stack)
-      - ["Tap" class parameters](#%22tap%22-class-parameters)
+      - ["Tap" class parameters](#tap-class-parameters)
   - [Middleware](#middleware)
     - [`RequestEvent`](#requestevent)
     - [`ResponseHandler`](#responsehandler)
@@ -273,6 +273,41 @@ When sending the request, `GuzzleHttp\Psr7\Response` will be used as the default
 ```
 
 > `json` driver will automatically use `Jenky\Hermes\Middleware\ResponseHandler` middleware and set the default `response_handler` to `Jenky\Hermes\JsonResponse`
+
+Now your HTTP request will returns an instance of `Jenky\Hermes\JsonResponse` instead of `GuzzleHttp\Psr7\Response` which provides a variety of methods that may be used to inspect the response:
+
+``` php
+$response->isSuccessful(): bool;
+$response->isError(): bool;
+$response->isInformational(): bool;
+$response->isRedirect(): bool;
+$response->isClientError(): bool;
+$response->isServerError(): bool;
+$response->ok(): bool;
+$response->created(): bool;
+$response->badRequest(): bool;
+$response->unauthorized(): bool;
+$response->forbidden(): bool;
+$response->notFound(): bool;
+$response->unprocessable(): bool;
+$response->serverError(): bool;
+$response->header(?string $header = null, $default = null): mixed;
+$response->status($code = null);
+$response->body(): string;
+
+$response->toArray(): array;
+$response->toJson(): string;
+$response->exists($key): bool;
+$response->get($key, $default = null): mixed;
+```
+
+The `Jenky\Hermes\JsonResponse` object also implements the PHP `ArrayAccess` interface and support magic `__get` method, allowing you to access JSON response data directly on the response:
+
+``` php
+$response['name'];
+// or
+$response->name;
+```
 
 ## Usage
 
