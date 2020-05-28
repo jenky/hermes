@@ -7,11 +7,11 @@ trait InteractsWithMessage
     /**
      * Retrieve a header from the request.
      *
-     * @param  string|null  $key
+     * @param  string|null  $header
      * @param  string|array|null  $default
      * @return string|array|null
      */
-    public function header($header = null, $default = null)
+    public function header(?string $header = null, $default = null)
     {
         if ($header) {
             return $this->getHeader($header)[0] ?? $default;
@@ -40,7 +40,7 @@ trait InteractsWithMessage
      *
      * @return string
      */
-    public function body()
+    public function body(): string
     {
         return (string) $this->getBody();
     }

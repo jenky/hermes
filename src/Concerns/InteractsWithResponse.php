@@ -43,7 +43,7 @@ trait InteractsWithResponse
      * @param  string|array  $key
      * @return bool
      */
-    public function exists($key)
+    public function exists($key): bool
     {
         $optional = new Optional($this->data);
 
