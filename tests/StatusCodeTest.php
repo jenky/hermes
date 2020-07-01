@@ -28,7 +28,7 @@ class StatusCodeTest extends TestCase
     public function test_3xx_status_code()
     {
         $redirect = $this->httpClient()
-            ->get('https://httpbin.org/redirect-to?url=https%3A%2F%2Fexample.com', [
+            ->get('redirect-to?url=https%3A%2F%2Fexample.com', [
                 'allow_redirects' => false,
             ]);
 
