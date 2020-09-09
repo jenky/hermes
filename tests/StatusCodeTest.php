@@ -25,17 +25,17 @@ class StatusCodeTest extends TestCase
         $this->assertTrue($created->isSuccessful());
     }
 
-    public function test_3xx_status_code()
-    {
-        $redirect = $this->httpClient()
-            ->get('redirect-to?url=https%3A%2F%2Fexample.com', [
-                'allow_redirects' => false,
-            ]);
+    // public function test_3xx_status_code()
+    // {
+    //     $redirect = $this->httpClient()
+    //         ->get('redirect-to?url=https://example.com', [
+    //             'allow_redirects' => false,
+    //         ]);
 
-        $this->assertEquals(302, $redirect->getStatusCode());
-        $this->assertEquals(302, $redirect->status());
-        $this->assertTrue($redirect->isRedirect());
-    }
+    //     $this->assertEquals(302, $redirect->getStatusCode());
+    //     $this->assertEquals(302, $redirect->status());
+    //     $this->assertTrue($redirect->isRedirect());
+    // }
 
     public function test_4xx_status_code()
     {
