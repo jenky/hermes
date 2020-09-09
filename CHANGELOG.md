@@ -16,6 +16,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
+## [1.3.2](https://github.com/jenky/hermes/compare/1.3.1...1.3.2) - 2020-09-09
+
+### Added
+- Support Laravel 8.
+
 ## [1.3.2](https://github.com/jenky/hermes/compare/1.3.1...1.3.2) - 2020-05-11
 
 ### Fixed
